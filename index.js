@@ -11,10 +11,14 @@ app.get('/', (req,res) => {
 })
 
 
-app.post('/user', (req,res)=>{
-
+app.post('/api/user', async (req,res)=>{
+        try{
+            const user = await User.create(req,body)
+            res.status(200).json(user)
+        } catch (error) {
+            res.status(500).json({meessage: error.message})
+        }
 })
-
 
 mongoose.connect(
     "mongodb+srv://gabrielmtg2:t2TnTvqDih29eY0b@nodedb.2a6h5ag.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODEDB"
