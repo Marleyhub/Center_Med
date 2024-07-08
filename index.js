@@ -1,7 +1,7 @@
     const express = require('express')
     const mongoose = require('mongoose')
     const app = express()
-    require('./models/user')
+    const User = require('./models/user.js')
 
 
     app.use(express.json())
@@ -20,11 +20,17 @@
         console.log(req.body)
         res.send(req.body)
     })
-app.post('/api/user', async (req,res)=>{
+app.get('/api/user', async (req,res)=>{
         try{
-            const user = await User.create(req.body)
+            const user = await User.create({
+                name:"Gabriel",
+                address: "Rua de casa",
+                healthcare: true
+            })
+            
             res.status(200).json(user)
-            res.send(req.body)
+           
+            console.log(user)
         } catch (error) {
             res.status(500).json({meessage: error.message})
         }
