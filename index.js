@@ -20,7 +20,7 @@
         console.log(req.body)
         res.send(req.body)
     })
-app.get('/api/user', async (req,res)=>{
+app.post('/api/user', async (req,res)=>{
         try{
             const user = await User.create({
                 name:"Gabriel",
@@ -28,7 +28,7 @@ app.get('/api/user', async (req,res)=>{
                 healthcare: true
             })
             res.status(200).json(user)
-            console.log(user)
+            console.log(req)
         } catch (error) {
             res.status(500).json({meessage: error.message})
         }
