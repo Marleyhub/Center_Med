@@ -1,7 +1,7 @@
     const express = require('express')
     const mongoose = require('mongoose')
     const app = express()
-    const User = require('./model-user')
+    require('./models/user')
 
 
     app.use(express.json())

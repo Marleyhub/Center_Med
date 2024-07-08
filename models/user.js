@@ -3,33 +3,33 @@ const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
          name: {
-            typeof: String,
+            type: String,
             required: true,
             
          },
 
          age: {
-            typeof: Number,
+            type: Number,
             required: true,
             default: 0
          },
 
-         adress: {
-            typeof: String,
+         address: {
+            type: String,
             required: true,
 
          },
 
          healthcare: {
-            typeof: Boolean,
+            type: Boolean,
             default: null
          },
 },
     {
-        Timestamp: true,
+        timestamp: true,
     }
         );
 
-        const User = mongoose.Schema('User', userSchema)
+        const User = mongoose.model('User', userSchema)
         module.exports = User
 
