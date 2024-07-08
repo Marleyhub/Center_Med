@@ -27,9 +27,7 @@ app.get('/api/user', async (req,res)=>{
                 address: "Rua de casa",
                 healthcare: true
             })
-            
             res.status(200).json(user)
-           
             console.log(user)
         } catch (error) {
             res.status(500).json({meessage: error.message})
