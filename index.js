@@ -11,16 +11,12 @@
     })
 
     app.get('/', (req,res) => {
-        console.log("foi")
-        console.log(req.body)
+       
         res.send('Server Alive')
     })
 
-    app.post('/api', (req,res)=>{
-        console.log(req.body)
-        res.send(req.body)
-    })
-app.post('/api/user', async (req,res)=>{
+
+    app.post('/api/user/create', async (req,res)=>{
         try{
             const user = await User.create({
                 name:"Gabriel",
@@ -30,9 +26,26 @@ app.post('/api/user', async (req,res)=>{
             res.status(200).json(user)
             console.log(req)
         } catch (error) {
-            res.status(500).json({meessage: error.message})
+            res.status(500).json({message: error.message})
         }
 })
+
+ app.put('/api/user/update/:id', async (req,res) => {
+
+    try{
+
+        const {id} = req.params;
+        const user =  await User.findByIdAndUpdate(id, req.body, {new: true});
+
+        if (!user) {
+            return res.status(404).json({message: "Product not Found"})
+        }
+
+    } catch(error) {
+
+    res.status(500).json({message: error.message})
+    }
+ })
 
 mongoose.connect(
     "mongodb+srv://gabrielmtg2:t2TnTvqDih29eY0b@nodedb.2a6h5ag.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODEDB"
