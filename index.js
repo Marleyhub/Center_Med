@@ -71,6 +71,7 @@
         res.status(200).json(userDeleteData)
     })
 
+    
 //conectando no banco de dados
 mongoose.connect(
     "mongodb+srv://gabrielmtg2:t2TnTvqDih29eY0b@nodedb.2a6h5ag.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODEDB"
