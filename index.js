@@ -3,21 +3,21 @@
     const app = express();
     const User = require('./models/user.js');
 
-
     const port = 3000;
 
-    //middleware pro express manipular arquivos json
+    //middleware 
     app.use(express.json());
 
     app.listen(port, ()=> {
         console.log(`server listening to port ${port}`)
     });
 
+//rotas
+
     //home
     app.get('/', (req,res) => {
        res.send('Server Alive') 
     });
-
 
     // criando o usuário
     app.post('/api/user/create', async (req,res)=>{
@@ -27,8 +27,9 @@
                 address: "Rua de tras",
                 healthcare: true
             });
-            res.status(200).json(user)
-            console.log(req)
+
+            res.status(200).json(user);
+
         } catch (error) {
             res.status(500).json({message: error.message});
         }
@@ -56,7 +57,19 @@
     res.status(500).json({message: error.message});
     }
 
- })
+ });
+
+    //deletando usuário
+    app.delete('/api/user/delete/:id', async (req,res) => {
+       
+        const {id} = req.params;
+        const userDeleteData = await User.findByIdAndDelete(id);
+
+        if(!userDeleteData) {
+            return res.status(400).json({message:'No data provided to delete'})
+        }
+        res.status(200).json(userDeleteData)
+    })
 
 //conectando no banco de dados
 mongoose.connect(
