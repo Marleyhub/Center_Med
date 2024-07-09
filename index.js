@@ -6,17 +6,20 @@
 
     const port = 3000;
 
+    //middleware pro express manipular arquivos json
     app.use(express.json());
 
     app.listen(port, ()=> {
-        console.log('server listening to port &{port}')
+        console.log(`server listening to port ${port}`)
     });
 
+    //home
     app.get('/', (req,res) => {
        res.send('Server Alive') 
     });
 
 
+    // criando o usuário
     app.post('/api/user/create', async (req,res)=>{
         try{
             const user = await User.create({
@@ -31,7 +34,8 @@
         }
 });
 
- app.put('/api/user/update/:id', async (req,res) => {
+    //editando usuario
+    app.put('/api/user/update/:id', async (req,res) => {
 
     try{
         const updateUserData = req.body
@@ -54,6 +58,7 @@
 
  })
 
+//conectando no banco de dados
 mongoose.connect(
     "mongodb+srv://gabrielmtg2:t2TnTvqDih29eY0b@nodedb.2a6h5ag.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODEDB"
     ).then(
