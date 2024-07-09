@@ -1,50 +1,57 @@
-    const express = require('express')
-    const mongoose = require('mongoose')
-    const app = express()
-    const User = require('./models/user.js')
+    const express = require('express');
+    const mongoose = require('mongoose');
+    const app = express();
+    const User = require('./models/user.js');
 
 
-    app.use(express.json())
+    const port = 3000;
 
-    app.listen(3000, ()=> {
-        console.log('server listening to port :3000')
-    })
+    app.use(express.json());
+
+    app.listen(port, ()=> {
+        console.log('server listening to port &{port}')
+    });
 
     app.get('/', (req,res) => {
-       
-        res.send('Server Alive')
-    })
+       res.send('Server Alive') 
+    });
 
 
     app.post('/api/user/create', async (req,res)=>{
         try{
             const user = await User.create({
-                name:"Gabriel",
-                address: "Rua de casa",
+                name:"Jubelal",
+                address: "Rua de tras",
                 healthcare: true
-            })
+            });
             res.status(200).json(user)
             console.log(req)
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({message: error.message});
         }
-})
+});
 
  app.put('/api/user/update/:id', async (req,res) => {
 
     try{
+        const updateUserData = req.body
+        if(!updateUserData || Object.keys(updateUserData).length == 0) {
+            return res.status(400).json({message: 'No data Provided to update'});    
+        }
 
         const {id} = req.params;
-        const user =  await User.findByIdAndUpdate(id, req.body, {new: true});
+        const user =  await User.findByIdAndUpdate(id, {name: 'joribijonson', address: 'rua da feira', healthcare: true, age: '33'}, {new: true});
 
         if (!user) {
             return res.status(404).json({message: "Product not Found"})
         }
 
-    } catch(error) {
+        res.status(200).json(user);
 
-    res.status(500).json({message: error.message})
+    } catch(error) {
+    res.status(500).json({message: error.message});
     }
+
  })
 
 mongoose.connect(
