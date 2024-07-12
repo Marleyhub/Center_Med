@@ -1,6 +1,7 @@
     const express = require('express');
     const mongoose = require('mongoose');
     const app = express();
+    const userRoute = require('./routes/user-route.js')
     const User = require('./models/user.js');
 
     const port = 3000;
@@ -13,7 +14,9 @@
         console.log(`server listening to port ${port}`)
     });
 
-//rotas
+    //rotas
+
+    app.use('/api/user', userRoute);
 
     //home
     app.get('/', (req,res) => {
