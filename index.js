@@ -24,19 +24,6 @@
     });   
 
 
-    //deletando usuário
- /*   app.delete('/api/user/delete/:id', async (req,res) => {
-       
-        const {id} = req.params;
-        const userDeleteData = await User.findByIdAndDelete(id);
-
-        if(!userDeleteData) {
-            return res.status(400).json({message:'No data provided to delete'})
-        }
-        res.status(200).json(userDeleteData)
-    })
-*/
-    
 //conectando no banco de dados
 mongoose.connect(
     "mongodb+srv://gabrielmtg2:t2TnTvqDih29eY0b@nodedb.2a6h5ag.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODEDB"
