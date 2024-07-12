@@ -17,10 +17,10 @@ router.get ('/', async (req,res) => {
 router.post('/create', async (req,res) => {
       try{
          const user = await User.create({
-            name:"Novo Cleriston",
-            address: "Rua do subterranea",
+            name:"Novo Novo Cleriston",
+            address: "Rua do subterranea mais profunda",
             healthcare: true,
-            age: 755
+            age: 9634
         });
 
         res.status(200).json(user);
@@ -29,6 +29,26 @@ router.post('/create', async (req,res) => {
         res.status(500).json({message: error.message});
 
       }
+});
+
+router.put('/update/:id', async (req,res) => {
+   try{
+      const updateUserData = req.body
+      if(!updateUserData || Object.keys(updateUserData).length == 0) {
+          return res.status(400).json({message: 'No data Provided to update'});    
+      }
+
+      const {id} = req.params;
+      const user =  await User.findByIdAndUpdate(id, {name: 'SR. Abelardo', address: 'Pastelaria', healthcare: true, age: 5566}, {new: true});
+
+      if (!user) {
+          return res.status(404).json({message: "Product not Found"})
+      }
+
+      res.status(200).json(user);
+   } catch (error) {
+      res.status(500).json({message: error.message})
+   }
 })
 
 

@@ -21,48 +21,8 @@
     //home
     app.get('/', (req,res) => {
        res.send('Server Alive') 
-    });
+    });   
 
-    // criando o usuário
-    app.post('/api/user/create', async (req,res)=>{
-        try{
-            const user = await User.create({
-                name:"Cleriston",
-                address: "Rua do lado",
-                healthcare: true,
-                age: 34
-            });
-
-            res.status(200).json(user);
-
-        } catch (error) {
-            res.status(500).json({message: error.message});
-        }
-});
-
-    //editando usuario
-    app.put('/api/user/update/:id', async (req,res) => {
-
-    try{
-        const updateUserData = req.body
-        if(!updateUserData || Object.keys(updateUserData).length == 0) {
-            return res.status(400).json({message: 'No data Provided to update'});    
-        }
-
-        const {id} = req.params;
-        const user =  await User.findByIdAndUpdate(id, {name: 'Pedro Qualy', address: 'rua da feira', healthcare: true, age: 65}, {new: true});
-
-        if (!user) {
-            return res.status(404).json({message: "Product not Found"})
-        }
-
-        res.status(200).json(user);
-
-    } catch(error) {
-    res.status(500).json({message: error.message});
-    }
-
- });
 
     //deletando usuário
     app.delete('/api/user/delete/:id', async (req,res) => {
