@@ -11,6 +11,24 @@ router.get ('/', async (req,res) => {
      } catch (error) {
         res.status(500).json({message: error.message});
      }
+});
+
+
+router.post('/create', async (req,res) => {
+      try{
+         const user = await User.create({
+            name:"Novo Cleriston",
+            address: "Rua do subterranea",
+            healthcare: true,
+            age: 755
+        });
+
+        res.status(200).json(user);
+
+      } catch (error) {
+        res.status(500).json({message: error.message});
+
+      }
 })
 
 
