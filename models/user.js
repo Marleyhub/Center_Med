@@ -1,7 +1,7 @@
 const { Timestamp } = require('mongodb')
 const mongoose = require('mongoose')
 
-const userSchema = mongoose.Schema({
+   const userSchema = mongoose.Schema({
          name: {
             type: String,
             required: true,
@@ -24,7 +24,8 @@ const userSchema = mongoose.Schema({
             type: Boolean,
             default: null
          },
-},
+   },
+   
     {
         timestamp: true,
     }

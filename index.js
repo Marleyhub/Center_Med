@@ -24,9 +24,10 @@
     app.post('/api/user/create', async (req,res)=>{
         try{
             const user = await User.create({
-                name:"Jubelal",
-                address: "Rua de tras",
-                healthcare: true
+                name:"Cleriston",
+                address: "Rua do lado",
+                healthcare: true,
+                age: 34
             });
 
             res.status(200).json(user);
@@ -46,7 +47,7 @@
         }
 
         const {id} = req.params;
-        const user =  await User.findByIdAndUpdate(id, {name: 'joribijonson', address: 'rua da feira', healthcare: true, age: '33'}, {new: true});
+        const user =  await User.findByIdAndUpdate(id, {name: 'Pedro Qualy', address: 'rua da feira', healthcare: true, age: 65}, {new: true});
 
         if (!user) {
             return res.status(404).json({message: "Product not Found"})
