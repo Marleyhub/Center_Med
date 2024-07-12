@@ -25,7 +25,7 @@
 
 
     //deletando usuário
-    app.delete('/api/user/delete/:id', async (req,res) => {
+ /*   app.delete('/api/user/delete/:id', async (req,res) => {
        
         const {id} = req.params;
         const userDeleteData = await User.findByIdAndDelete(id);
@@ -35,7 +35,7 @@
         }
         res.status(200).json(userDeleteData)
     })
-
+*/
     
 //conectando no banco de dados
 mongoose.connect(

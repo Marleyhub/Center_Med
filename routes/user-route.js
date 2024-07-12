@@ -47,7 +47,20 @@ router.put('/update/:id', async (req,res) => {
 
       res.status(200).json(user);
    } catch (error) {
-      res.status(500).json({message: error.message})
+      res.status(500).json({message: error.message});
+   }
+});
+
+router.delete('/delete/:id', async (req,res) => {
+   try{
+      const {id} = req.params;
+      const deletedData = await User.findByIdAndDelete(id)
+      if(!deletedData) {
+         return res.status(400).json({message:'No data provided to delete'})
+     }
+      res.status(200).json(deletedData)
+   }catch (error) {
+      res.status(500).json({message: error.message});
    }
 })
 
