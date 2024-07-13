@@ -1,7 +1,7 @@
     const express = require('express');
     const mongoose = require('mongoose');
     const app = express();
-    const userRoute = require('./routes/user-route.js')
+    const usersRoute = require('./routes/users-route.js')
     const User = require('./models/user.js');
 
     const port = 3000;
@@ -16,7 +16,7 @@
 
     //rotas
 
-    app.use('/api/user', userRoute);
+    app.use('/api/users', usersRoute);
 
     //home
     app.get('/', (req,res) => {

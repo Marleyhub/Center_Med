@@ -1,37 +1,34 @@
-const express = require('express');
-const app = express();
-const router = express.Router();
-const User = require('../models/user');
+const User = require('../models/user.js');
 
 
-router.get ('/', async (req,res) => {
-     try{
-       const users = await User.find({});
-       res.status(200).json(users);
-     } catch (error) {
-        res.status(500).json({message: error.message});
-     }
-});
 
+const getUsers =  async (req,res) => {
+        try{
+          const users = await User.find({});
+          res.status(200).json(users);
+        } catch (error) {
+           res.status(500).json({message: error.message});
+        }
+   }
 
-router.post('/create', async (req,res) => {
-      try{
-         const user = await User.create({
-            name:"Novo Novo Cleriston",
-            address: "Rua do subterranea mais profunda",
-            healthcare: true,
-            age: 9634
-        });
+const createUser = async (req,res) => {
+   try{
+      const user = await User.create({
+         name:"Novo Novo Cleriston",
+         address: "Rua do subterranea mais profunda",
+         healthcare: true,
+         age: 9634
+     });
 
-        res.status(200).json(user);
+     res.status(200).json(user);
 
-      } catch (error) {
-        res.status(500).json({message: error.message});
+   } catch (error) {
+     res.status(500).json({message: error.message});
 
-      }
-});
+   }
+}
 
-router.put('/update/:id', async (req,res) => {
+const updateUser = async (req,res) => {
    try{
       const updateUserData = req.body
       if(!updateUserData || Object.keys(updateUserData).length == 0) {
@@ -49,9 +46,9 @@ router.put('/update/:id', async (req,res) => {
    } catch (error) {
       res.status(500).json({message: error.message});
    }
-});
+}
 
-router.delete('/delete/:id', async (req,res) => {
+const deleteUser = async (req,res) => {
    try{
       const {id} = req.params;
       const deletedData = await User.findByIdAndDelete(id)
@@ -62,8 +59,12 @@ router.delete('/delete/:id', async (req,res) => {
    }catch (error) {
       res.status(500).json({message: error.message});
    }
-})
+}
 
 
-
-module.exports = router;
+module.exports = {
+    getUsers,
+    createUser,
+    updateUser,
+    deleteUser
+}
