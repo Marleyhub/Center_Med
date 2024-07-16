@@ -23,6 +23,9 @@ const getUser = async (req,res) => {
 
 const createUser = async (req,res) => {
    try{
+      var errors = [];
+
+      if (!user) {}
       const user = await User.create({
          name:"Novo Novo Cleriston",
          address: "Rua do subterranea mais profunda",
