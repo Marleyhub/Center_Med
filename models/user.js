@@ -28,6 +28,7 @@ const Joi = require('joi');
 
          age: {
             type: Number,
+            required: true
          },
 
          address: {
