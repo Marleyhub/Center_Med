@@ -1,36 +1,40 @@
-const User = require('../models/user.js');
+const {User, validateUSer} = require('../models/user.js');
 
 
 
 const getUsers =  async (req,res) => {
         try{
-          const users = await User.find({});
-          res.status(200).json(users);
-        } catch (error) {
-           res.status(500).json({message: error.message});
+         const users = await User.find({});
+         res.status(200).json(users);
+        } catch(error) {
+            res.status(500).json({message: error.message});
         }
    }
 
 const getUser = async (req,res) => { 
    try{
-      const {id} = req.params
-      const user = await User.findById(id)
-      res.status(200).json(user)
+      const {id} = req.params;
+      const user = await User.findById(id);
+      res.status(200).json(user);
    }  catch (error) {
-         res.status(500).json({message: error.message})
+         res.status(500).json({message: error.message});
    }
 }
 
 const createUser = async (req,res) => {
+   
    try{
-      var errors = [];
+      //validação
+      const {error, value} = validateUSer(req.body);
+      if (error) {
+         return res.status(400).json({error: error.details.map(d => d.message)}) 
+      }
 
-      if (!user) {}
       const user = await User.create({
-         name:"Novo Novo Cleriston",
-         address: "Rua do subterranea mais profunda",
-         healthcare: true,
-         age: 9634
+         name: value.name,
+         address: value.address,
+         healthcare: value.healthcare,
+         age: value.age
      });
 
      res.status(200).json(user);
