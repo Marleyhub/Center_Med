@@ -34,7 +34,8 @@ const createUser = async (req,res) => {
          name: value.name,
          address: value.address,
          healthcare: value.healthcare,
-         age: value.age
+         age: value.age,
+         password: value.password
      });
 
      res.status(200).json(user);
