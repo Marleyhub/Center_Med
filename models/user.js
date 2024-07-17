@@ -1,8 +1,8 @@
-const { Timestamp } = require('mongodb');
+//const { Timestamp } = require('mongodb');
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
-//validação
+   //validação
    const userSchemaValidation = Joi.object({
       name: Joi.string()
                .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
@@ -11,15 +11,23 @@ const Joi = require('joi');
       password: Joi.string()
                    .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
 
-      age: Joi.number().integer().min(0).max(150).required(),
+      age: Joi.number()
+              .integer()
+              .min(0)
+              .max(150)
+              .required(),
 
-      address: Joi.string().min(10).max(150).required(),
+      address: Joi.string()
+                  .min(10)
+                  .max(150)
+                  .required(),
 
-      healthcare: Joi.boolean().default(null),
+      healthcare: Joi.boolean()
+                     .default(null),
       
    }) 
 
-//model de usuario
+   //model de usuario
    const userSchema = mongoose.Schema({
          name: {
             type: String,
