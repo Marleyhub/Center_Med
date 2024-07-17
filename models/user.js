@@ -2,7 +2,7 @@ const { Timestamp } = require('mongodb');
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
-
+//validação
    const userSchemaValidation = Joi.object({
       name: Joi.string()
                .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
@@ -19,7 +19,7 @@ const Joi = require('joi');
       
    }) 
 
-
+//model de usuario
    const userSchema = mongoose.Schema({
          name: {
             type: String,
