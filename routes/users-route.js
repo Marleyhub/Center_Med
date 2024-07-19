@@ -2,7 +2,7 @@
     const app = express();
     const router = express.Router();
     const User = require('../models/user');
-    const {getUsers, getUser, createUser, updateUser, deleteUser} = require('../controlers/users-controllers.js');
+    const {logUser, getUsers, getUser, createUser, updateUser, deleteUser} = require('../controlers/users-controllers.js');
 
 
     // rotas
@@ -16,5 +16,6 @@
 
     router.delete('/delete/:id', deleteUser);
 
+    router.post('/login', logUser)
 
     module.exports = router;

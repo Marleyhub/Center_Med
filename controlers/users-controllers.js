@@ -84,11 +84,33 @@
       }
    }
 
+   // logando usuário
+   const logUser = async (req,res) => {
+      
+      const user = await User.find({name: req.body.name});
+      console.log(user)
+      if (user == null || !user) {
+         return res.status(400).send('Cannot find user')
+      }
+
+      try {
+         const isMatch = await bcrypt.compare( req.body.password, user.password)
+         if(!isMatch) {
+            return res.status(400).send('Keys incorrect')
+         }
+
+         res.status(200).send('Allowed')
+
+      } catch (error){ 
+         res.status(500).json({message: error.message});
+      }
+   }
 
    module.exports = {
       getUsers,
       getUser,
       createUser,
       updateUser,
-      deleteUser
+      deleteUser,
+      logUser
    }

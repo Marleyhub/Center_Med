@@ -4,7 +4,7 @@
     const usersRoute = require('./routes/users-route.js')
     const User = require('./models/user.js');
 
-    const port = 3000;
+    const port = 3080;
 
     //middleware 
     app.use(express.json());
