@@ -14,7 +14,8 @@
       }
    
    // Listar usuário
-   const getUser = async (req,res) => { 
+   const getUser = async (req,res) => {  
+
       try{
          const {id} = req.params;
          const user = await User.findById(id);
@@ -87,11 +88,16 @@
    // logando usuário
    const logUser = async (req,res) => {
       
-      const user = await User.find({name: req.body.name});
-      console.log(user)
-      if (user == null || !user) {
-         return res.status(400).send('Cannot find user')
+      const user = await User.findOne({name: req.body.name, });
+      if (user == null || !user || user == false) {
+         return res.status(400).send('Cannot find')
       }
+
+      const userPassoword = await User.findOne({password: req.body.password});
+      console.log(userPassoword)
+      if (userPassoword == null || !userPassoword || userPassoword == false) {
+         return res.status(400).send('Cannot find')
+       }
 
       try {
          const isMatch = await bcrypt.compare( req.body.password, user.password)
