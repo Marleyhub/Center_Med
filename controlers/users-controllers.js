@@ -1,5 +1,9 @@
+   require('dotenv').config()
+
    const {User, validateUSer} = require('../models/user.js');
    const bcrypt = require('bcrypt');
+   const { application } = require('express');
+   const jwt = require('jsonwebtoken')
 
    const saltRounds = 10
 
@@ -102,10 +106,15 @@
       try {
          const isMatch = await bcrypt.compare( req.body.password, user.password)
          if(!isMatch) {
-            return res.status(400).send('Keys incorrect')
+            return res.status(400).send('Keys or username incorrect')
          }
 
-         res.status(200).send('Allowed')
+      //jwt auth
+      const username = req.body.name;
+      const jwtname = username
+      accessToken = jwt.sign(jwtname, process.env.ACCESS_TOKEN_SECRET)
+      res.status(200).send('Allowed');
+      console.log(accessToken)
 
       } catch (error){ 
          res.status(500).json({message: error.message});
