@@ -97,11 +97,6 @@
          return res.status(400).send('Cannot find')
       }
 
-      const userPassoword = await User.findOne({password: req.body.password});
-      console.log(userPassoword)
-      if (userPassoword == null || !userPassoword || userPassoword == false) {
-         return res.status(400).send('Cannot find')
-       }
 
       try {
          const isMatch = await bcrypt.compare( req.body.password, user.password)
@@ -111,7 +106,9 @@
 
       //jwt auth
       const username = req.body.name;
-      const jwtname = username
+      console.log(username)
+      const jwtname = ({name: username})
+      console.log(jwtname)
       accessToken = jwt.sign(jwtname, process.env.ACCESS_TOKEN_SECRET)
       res.status(200).send('Allowed');
       console.log(accessToken)
