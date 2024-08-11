@@ -63,7 +63,15 @@
          }
 
          const {id} = req.params;
-         const user =  await User.findByIdAndUpdate(id, {name: 'SR. Abelardo', address: 'Pastelaria', healthcare: true, age: 5566}, {new: true});
+         const {name, address, healthcare, age} = req.body
+         const user =  await User.findByIdAndUpdate(id, 
+            {
+               name: name, 
+               address: address, 
+               healthcare: healthcare, 
+               age: age
+            },
+            {new: true});
 
          if (!user) {
             return res.status(404).json({message: "Product not Found"})
@@ -97,7 +105,6 @@
          return res.status(400).send('Cannot find')
       }
 
-
       try {
          const isMatch = await bcrypt.compare( req.body.password, user.password)
          if(!isMatch) {
@@ -106,9 +113,7 @@
 
       //jwt auth
       const username = req.body.name;
-      console.log(username)
       const jwtname = ({name: username})
-      console.log(jwtname)
       accessToken = jwt.sign(jwtname, process.env.ACCESS_TOKEN_SECRET)
       res.status(200).send('Allowed');
       console.log(accessToken)
