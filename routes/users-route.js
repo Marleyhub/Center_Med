@@ -2,7 +2,7 @@
     const app = express();
     const router = express.Router();
     const User = require('../models/user');
-    const {logUser, getUsers, getUser, createUser, updateUser, deleteUser, authenticateToken} = require('../controlers/users-controllers.js');
+    const {logUser, getUsers, getUser, createUser, updateUser, deleteUser, authenticateToken} = require('../controllers/users-controllers.js');
 
 
     // rotas
