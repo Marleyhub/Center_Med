@@ -5,7 +5,7 @@ const Exam = require('../models/exam');
 const {getExam, createExam} = require('../controllers/exam-controllers')
 
 
-//router.get('/', getExam);
+router.get('/', getExam);
 
 router.post('/create', createExam);
 
