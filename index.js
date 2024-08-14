@@ -1,8 +1,10 @@
     const express = require('express');
     const mongoose = require('mongoose');
     const app = express();
-    const usersRoute = require('./routes/users-route.js')
+    const usersRoute = require('./routes/users-route.js');
+    const examsRoute = require('./routes/exam-route.js');
     const User = require('./models/user.js');
+    const Exam = require('./models/exam.js');
 
     const port = 3080;
 
@@ -17,7 +19,7 @@
     //rotas
 
     app.use('/api/users', usersRoute);
-
+    app.use('/api/exams', examsRoute);
     //home
     app.get('/', (req,res) => {
        res.send('Server Alive') 
