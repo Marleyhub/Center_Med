@@ -1,6 +1,6 @@
 const Exam = require('../models/exam');
 
-
+//criando exame
 const createExam = async (req, res) => {
    try{
 
@@ -17,8 +17,10 @@ const createExam = async (req, res) => {
    }
 }
 
+// listando todos os exames
 const getExam = async (req, res) => {
     try{
+
      const exam = await Exam.find();
      return res.status(200).json(exam)
     
@@ -27,7 +29,19 @@ const getExam = async (req, res) => {
     }
  }
 
+
+ const deleteExam = async (req, res) => {
+    try {
+        const {id} = req.params
+        console.log(id)
+        const deletedExam = await Exam.findByIdAndDelete(id)
+        return res.status(200).json(deleteExam)
+    } catch (error) {
+        return res.status(404).json({message: error.message})
+    }
+ }
 module.exports = {
     createExam,
-    getExam
+    getExam,
+    deleteExam
 }
