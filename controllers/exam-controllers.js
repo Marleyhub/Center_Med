@@ -1,4 +1,5 @@
-const Exam = require('../models/exam');
+const Exam = require('../models/exam.js');
+const {User} = require('../models/user.js');
 
 //criando exame
 const createExam = async (req, res) => {
@@ -29,7 +30,7 @@ const getExam = async (req, res) => {
     }
  }
 
-
+// deletando exame
  const deleteExam = async (req, res) => {
     try {
         const {id} = req.params
@@ -40,8 +41,27 @@ const getExam = async (req, res) => {
         return res.status(404).json({message: error.message})
     }
  }
+
+  // Marcando consulta
+  async function scheduleExam (req, res) {
+    try{
+       const {id} = req.params
+       const {examId} = req.body
+
+       const schedule = await User.findByIdAndUpdate(id, 
+          {
+             $push: {examId: examId}
+          },
+       );
+      
+       return res.status(200).json(schedule)
+    } catch (error) {
+       return res.status(404).json({message: error.message})
+    }
+ }
 module.exports = {
     createExam,
     getExam,
-    deleteExam
+    deleteExam,
+    scheduleExam
 }

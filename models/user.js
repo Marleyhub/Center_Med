@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const Exam = require('./exam')
+const Schema = mongoose.Schema
 
    //validação
    const userSchemaValidation = Joi.object({
@@ -23,7 +25,6 @@ const Joi = require('joi');
 
       healthcare: Joi.boolean()
                      .default(null),
-      
    }) 
 
    //model de usuario
@@ -51,7 +52,13 @@ const Joi = require('joi');
          healthcare: {
             type: Boolean,
             default: null
-         }
+         },
+
+         examId: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Exam',
+            default: null
+         }]
    },
    
    {
