@@ -45,35 +45,38 @@ const { NULL } = require('mysql/lib/protocol/constants/types.js');
    }
 
    // Marcando consulta
-   async function scheduleExam (req, res) {
+   async function scheduleCreate (req, res) {
       try{
-         const {id} = req.params
+         const {userId} = req.body
          const {examId} = req.body
-         const examObjectIds = new mongoose.Types.ObjectId(examId)
-         const userExamIdproxy = await User.findById(id).select('examId');
-         const userExamIds = userExamIdproxy.toObject().examId;
-            // simplificar este trecho de codigo
-            // não pegar ID dos parametros 
-            // fazer validação de exames já existentes de uma maneira mais simples
-         if (userExamIds.some(exam => exam.equals(examObjectId))) {
-            return res.status(400).json({ message: 'Exame já marcado' });
+         const user = await User.findById(userId)
+
+         if (!userId || !examId) {
+            return res.status(404).json({message: "Inserir Useário e Exame"})
+         }
+         if (examId == user.examId) {
+            return res.status(404).json({message: "Exame já marcado"})
+         }
+
+         const userUpdated = await User.findByIdAndUpdate(userId, 
+            { $push: {examId: examId}}
+         )
+
+         return res.status(200).json({userUpdated, message: 'Exame marcado para este usuário'})
+         
+        } catch (error) {
+         return res.status(404).json({message: error.message})
         }
 
-         const schedule = await User.findByIdAndUpdate(id, 
-            { $push: {examId: examId} },
-         );
-         return res.status(200).json(schedule)
-            
-            } catch (error) {
-         return res.status(404).json({message: error.message})
-      }
+        
    }
 
    //Desmarcando consulta
    async function scheduleDelete(req, res) {
+      
       const {userId} = req.body
       const {examId} = req.body
-      console.log(examId)
+      
       try {
           const user = await User.findByIdAndUpdate(userId,
             { $pull: { examId: examId} }
@@ -87,6 +90,6 @@ const { NULL } = require('mysql/lib/protocol/constants/types.js');
       createExam,
       getExam,
       deleteExam,
-      scheduleExam,
+      scheduleCreate,
       scheduleDelete
    }
