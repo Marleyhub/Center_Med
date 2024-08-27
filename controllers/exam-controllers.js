@@ -46,10 +46,12 @@
 
    // Marcando consulta
    async function scheduleCreate (req, res) {
+    
+      const {userId} = req.body
+      const {examId} = req.body
+      const user = await User.findById(userId)
+      
       try{
-         const {userId} = req.body
-         const {examId} = req.body
-         const user = await User.findById(userId)
 
          if (!userId || !examId) {
             return res.status(404).json({message: "Inserir Useário e Exame"})
