@@ -58,11 +58,11 @@ const { NULL } = require('mysql/lib/protocol/constants/types.js');
             return res.status(404).json({message: "Exame já marcado"})
          }
 
-         const userUpdated = await User.findByIdAndUpdate(userId, 
+         const userToUpdate = await User.findByIdAndUpdate(userId, 
             { $push: {examId: examId}}
          )
 
-         return res.status(200).json({userUpdated, message: 'Exame marcado para este usuário'})
+         return res.status(200).json({userToUpdate, message: 'Exame marcado para este usuário'})
          
         } catch (error) {
          return res.status(404).json({message: error.message})
@@ -73,15 +73,20 @@ const { NULL } = require('mysql/lib/protocol/constants/types.js');
 
    //Desmarcando consulta
    async function scheduleDelete(req, res) {
-      
+
       const {userId} = req.body
       const {examId} = req.body
+      const user = await User.findById(userId)
       
       try {
-          const user = await User.findByIdAndUpdate(userId,
-            { $pull: { examId: examId} }
-          );
-          return res.status(200).json({user, message: 'Exame desmarcado para este usuário'})
+         if (examId == user.examId){
+            const userToDelete = await User.findByIdAndUpdate(userId,
+               { $pull: { examId: examId} }
+             );
+             return res.status(200).json({userToDelete, message: 'Exame desmarcado para este usuário'})
+         } else {
+            return res.status(404).json({message: 'Exame não encotrado'})
+         }
       } catch (error) {
           return res.status(404).json({message: error})
       }
