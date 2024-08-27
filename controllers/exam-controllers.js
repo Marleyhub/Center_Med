@@ -1,7 +1,7 @@
    const {mongoose} = require('mongoose');
    const Exam = require('../models/exam.js');
    const {User} = require('../models/user.js');
-const { NULL } = require('mysql/lib/protocol/constants/types.js');
+
 
    //criando exame
    const createExam = async (req, res) => {
