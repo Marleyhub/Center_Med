@@ -2,7 +2,7 @@
 
    const {User, validateUSer} = require('../models/user.js');
    const bcrypt = require('bcrypt');
-   const { application } = require('express');
+   //const { application } = require('express');
    const jwt = require('jsonwebtoken')
 
    const saltRounds = 10
@@ -112,10 +112,12 @@
          }
 
       //jwt auth
-      const username = req.body.name;
-      const jwtname = ({name: username})
-      accessToken = jwt.sign(jwtname, process.env.ACCESS_TOKEN_SECRET)
+      const userName = req.body.name;
+      const jwtName = {name: userName}
+
+      accessToken = jwt.sign(jwtName, process.env.ACCESS_TOKEN_SECRET)
       res.status(200).send('Allowed');
+
       console.log(accessToken)
 
       } catch (error){ 
@@ -129,7 +131,7 @@
       const token = authHeader && authHeader.split(' ')[1]
       if(token == null) return res.sendStatus(401)
 
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, jwtName) => {
          if (err) return res.sendStatus(403)
          req.user = user
          next()
