@@ -18,8 +18,8 @@
 
     //rotas
 
-    app.use('/api/users/auth', usersRoute);
-    app.use('/api/exams/auth', examsRoute);
+    app.use('/api/users/', usersRoute);
+    app.use('/api/exams/', examsRoute);
     //home
     app.get('/', (req,res) => {
        res.send('Server Alive') 
