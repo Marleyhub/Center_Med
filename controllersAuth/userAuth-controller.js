@@ -2,7 +2,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 const {User} = require('../models/user.js')
-const RefreshT = require('../models/token.js');
+const {RefreshT} = require('../models/token.js');
 
 
 let refreshTokens = []
@@ -27,6 +27,8 @@ const logUser = async (req,res) => {
     const jwtName = {name: userName}
     const accessToken = generateAccessToken(jwtName)
     const refreshToken = jwt.sign(jwtName, process.env.REFRESH_TOKEN_SECRET)
+    refreshToDB()
+    console.log(req.body)
     res.status(200).json({accessToken: accessToken,
                           refreshToken: refreshToken,
                           user
@@ -35,8 +37,9 @@ const logUser = async (req,res) => {
        res.status(500).json({message: error.message});
     }
  }
+ 
 //populando refreshTokens na DB
-async function refreshToDB(req, res){
+const refreshToDB = async (req, res) => {
    try {
       const refreshT = await RefreshT.create({
          userId: req.body.userId,
@@ -45,9 +48,10 @@ async function refreshToDB(req, res){
       });
       return res.status(200).json(refreshT)
    } catch (error) {
-      res.send(500).json({message: error})
+      res.status(500).json({message: error})
    }
-} 
+}
+
 //gerando access token
 function generateAccessToken(jwtName) {
     return jwt.sign(jwtName, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30s'})
@@ -57,8 +61,8 @@ function generateAccessToken(jwtName) {
 const refresh = async (req, res) => {
    const refreshToken = req.body.token
 
-   if(refreshToken == null) return res.status(401).json('access denied')
-   if(!refreshTokens.includes(refreshToken)) return res.status(403).json('access denied')
+   if(refreshToken == null) return res.status(401).json('access denied - null ')
+   if(!refreshTokens.includes(refreshToken)) return res.status(403).json('access denied - !')
 
       jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
          if(err) return res.sendStatus(403)
@@ -75,8 +79,8 @@ const logout = (req, res) => {
 }
 /*
 1 - Armazenar em banco de dados os refreshTokens (pesquisar)
-3 - Excluir do banco de dados os refreshtokens ao fazer logout
-4 - criar rotas de autenticação para criar exames deletear
+2 - Excluir do banco de dados os refreshtokens ao fazer logout
+3 - criar rotas de autenticação para criar exames deletear
 */
 
  module.exports = {
