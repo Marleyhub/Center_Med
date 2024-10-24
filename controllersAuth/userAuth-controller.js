@@ -38,7 +38,7 @@ const refreshToDB = async (user, refreshToken, next) => {
       const refreshT = await RefreshT.create({
          userId: user._id,
          token: refreshToken,
-         expireDate: new Date(Date.now() + 0 * 0 * 1 * 0 * 0)
+         expireDate: new Date(Date.now() +  15 * 60 * 1000)
       });
       return refreshT
       next()
@@ -68,17 +68,21 @@ const refresh = async (req, res) => {
 
 // logout
 const logout = async (req, res) => {
-  const result = await RefreshT.deleteOne({userId: req.body._id})
 
-  if(result.deletedCount === 0) {
-   return res.status(404).json({message: 'User not logged'})
-  }
+   try{
+      const result = await RefreshT.deleteOne({userId: req.body._id})
 
-  return res.status(200).json({message: 'User deleted successufuly'})
-}
+      if(result.deletedCount === 0) {
+       return res.status(404).json({message: 'User not logged'})
+      }
+    
+      return res.status(200).json({message: 'refresh Token deleted successufuly'})
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+   }
+   } 
 
 /*
-1 - Excluir do banco de dados os refreshtokens ao fazer logout
 2 - Criar em refreshT mecanismo qua atualize o refresh token do usuário com o id especifico quando expirar o tempo
 3 - Ultilizar refresh token armazenado na DB para gerar novo Access token
 4 - criar rotas de autenticação para criar e deletear exames
