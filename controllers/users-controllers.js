@@ -1,5 +1,4 @@
    require('dotenv').config()
-
    const {User, validateUSer} = require('../models/user.js');
    const bcrypt = require('bcrypt');
    //const { application } = require('express');

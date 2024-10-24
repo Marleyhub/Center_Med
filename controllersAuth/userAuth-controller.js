@@ -1,8 +1,8 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
-const {User} = require('../models/user.js')
-const {RefreshT} = require('../models/token.js');
+const {User} = require('../models/user.js') 
+const RefreshT = require('../models/token.js'); 
 
 
 let refreshTokens = []
@@ -12,7 +12,7 @@ for (let i = 0; i < refreshTokens; i++) {
 }
 
 // logando usuário
-const logUser = async (req,res) => {
+const logUser = async (req, res) => {
     const user = await User.findOne({name: req.body.name});
     if (user == null || !user || user == false) {
        return res.status(400).send('Cannot find')
@@ -27,8 +27,8 @@ const logUser = async (req,res) => {
     const jwtName = {name: userName}
     const accessToken = generateAccessToken(jwtName)
     const refreshToken = jwt.sign(jwtName, process.env.REFRESH_TOKEN_SECRET)
-    refreshToDB()
     console.log(req.body)
+    await refreshToDB(user, refreshToken)
     res.status(200).json({accessToken: accessToken,
                           refreshToken: refreshToken,
                           user
@@ -39,16 +39,18 @@ const logUser = async (req,res) => {
  }
  
 //populando refreshTokens na DB
-const refreshToDB = async (req, res) => {
+const refreshToDB = async (user, refreshToken, next) => {
    try {
       const refreshT = await RefreshT.create({
-         userId: req.body.userId,
-         token: req.body.token,
-         expireDate: req.body.expireDate
+         userId: user._id,
+         token: refreshToken,
+         expireDate: new Date(Date.now() + 0 * 0 * 1 * 0 * 0)
       });
-      return res.status(200).json(refreshT)
+      return refreshT
+      next()
    } catch (error) {
-      res.status(500).json({message: error})
+     console.log(error)
+     throw new Error ('Error storing refresh token')
    }
 }
 
@@ -77,10 +79,13 @@ const logout = (req, res) => {
    refreshTokens = refreshTokens.filter(token => token ==! req.body.token)
    return res.status(204).json({message: 'logout'})
 }
+
 /*
 1 - Armazenar em banco de dados os refreshTokens (pesquisar)
+      - função quebrando no erro por algum motico o servidor não envia a resposta de erro
+      - automatizar preenchimento de userId, token e expireDate
 2 - Excluir do banco de dados os refreshtokens ao fazer logout
-3 - criar rotas de autenticação para criar exames deletear
+3 - criar rotas de autenticação para criar e deletear exames
 */
 
  module.exports = {
