@@ -5,12 +5,6 @@ const {User} = require('../models/user.js')
 const RefreshT = require('../models/token.js'); 
 
 
-let refreshTokens = []
-for (let i = 0; i < refreshTokens; i++) {
-   console.log(refreshTokens[i])
-   console.log(refreshTokens.length)
-}
-
 // logando usuário
 const logUser = async (req, res) => {
     const user = await User.findOne({name: req.body.name});
@@ -49,14 +43,13 @@ const refreshToDB = async (user, refreshToken, next) => {
       return refreshT
       next()
    } catch (error) {
-     console.log(error)
      throw new Error ('Error storing refresh token')
    }
 }
 
 //gerando access token
 function generateAccessToken(jwtName) {
-    return jwt.sign(jwtName, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30s'})
+    return jwt.sign(jwtName, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '60s'})
 }
 
 // Reiniciando Token
@@ -74,18 +67,21 @@ const refresh = async (req, res) => {
 }
 
 // logout
+const logout = async (req, res) => {
+  const result = await RefreshT.deleteOne({userId: req.body._id})
 
-const logout = (req, res) => {
-   refreshTokens = refreshTokens.filter(token => token ==! req.body.token)
-   return res.status(204).json({message: 'logout'})
+  if(result.deletedCount === 0) {
+   return res.status(404).json({message: 'User not logged'})
+  }
+
+  return res.status(200).json({message: 'User deleted successufuly'})
 }
 
 /*
-1 - Armazenar em banco de dados os refreshTokens (pesquisar)
-      - função quebrando no erro por algum motico o servidor não envia a resposta de erro
-      - automatizar preenchimento de userId, token e expireDate
-2 - Excluir do banco de dados os refreshtokens ao fazer logout
-3 - criar rotas de autenticação para criar e deletear exames
+1 - Excluir do banco de dados os refreshtokens ao fazer logout
+2 - Criar em refreshT mecanismo qua atualize o refresh token do usuário com o id especifico quando expirar o tempo
+3 - Ultilizar refresh token armazenado na DB para gerar novo Access token
+4 - criar rotas de autenticação para criar e deletear exames
 */
 
  module.exports = {
