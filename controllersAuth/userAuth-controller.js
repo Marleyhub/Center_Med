@@ -20,7 +20,7 @@ const logUser = async (req, res) => {
     const userName = req.body.name;
     const jwtName = {name: userName}
     const accessToken = generateAccessToken(jwtName)
-    const refreshToken = jwt.sign(jwtName, process.env.REFRESH_TOKEN_SECRET)
+    const refreshToken = jwt.sign(jwtName, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'})
     console.log(req.body)
     await refreshToDB(user, refreshToken)
     res.status(200).json({accessToken: accessToken,
