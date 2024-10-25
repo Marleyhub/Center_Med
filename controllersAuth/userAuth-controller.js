@@ -22,29 +22,13 @@ const RefreshT = require('../models/token.js');
       const jwtName = {name: userName};
       const accessToken = generateAccessToken(jwtName);
       const refreshToken = jwt.sign(jwtName, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'});
-      await refreshToDB(user, refreshToken);
+      tokenAutoRefresh(2 * 60, refreshToken);
       res.status(200).json({accessToken: accessToken,
                            refreshToken: refreshToken,
                            user: user
                            });
-      tokenAutoRefresh(2 * 60, refreshToken);
       } catch (error){ 
          res.status(500).json({message: error.message});
-      }
-   }
- 
-//populando refreshTokens na DB
-   const refreshToDB = async (user, refreshToken, next) => {
-      try {
-         const refreshT = await RefreshT.create({
-            userId: user._id,
-            token: refreshToken,
-            expireDate: new Date(Date.now() +  15 * 60 * 1000)
-         });
-         return refreshT
-         next();
-      } catch (error) {
-      throw new Error ('Error storing refresh token')
       }
    }
 
@@ -93,9 +77,7 @@ const RefreshT = require('../models/token.js');
       }
    
    }
-// Reiniciando Token
-   /* Using axios library i need this refresh function to be called by the tokenOutoRefresh function above 
-   a i need to pass the the valid refresh token as a param to be manipulated here inside the refresh function*/
+// Refresh token endpoint function
    const refresh = async (req, res) => {
       try{
          const token = req.body.token
