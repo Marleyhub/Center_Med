@@ -1,12 +1,11 @@
    require('dotenv').config()
    const {User, validateUSer} = require('../models/user.js');
    const bcrypt = require('bcrypt');
-   //const { application } = require('express');
    const jwt = require('jsonwebtoken')
 
    const saltRounds = 10
 
-   // Listar usuários
+// Listar usuários
    const getUsers =  async (req,res) => {
          try{
             const users = await User.find({});
@@ -16,7 +15,7 @@
          }
       }
    
-   // Listar usuário
+// Listar usuário
    const getUser = async (req,res) => {  
 
       try{
@@ -28,15 +27,15 @@
       }
    }
 
-   // Criar usuário
+// Criar usuário
    const createUser = async (req,res) => {
       try{
-         //validação
+      //validação
          const {error, value} = validateUSer(req.body);
          if (error) {
             return res.status(400).json({error: error.details.map(d => d.message)}) 
          }
-         //hash de senha
+      //hash de senha
          const salt = await bcrypt.genSalt(saltRounds)
          const hashedPassword = await bcrypt.hash(req.body.password, salt)
    
@@ -53,7 +52,7 @@
       }
    }
 
-   //Editar usuário
+//Editar usuário
    const updateUser = async (req,res) => {
       try{
          const updateUserData = req.body
@@ -82,7 +81,7 @@
       }
    }
 
-   //Deletar usuário
+//Deletar usuário
    const deleteUser = async (req,res) => {
       try{
          const {id} = req.params;
@@ -97,16 +96,13 @@
    }
 
    
-   //Autenticando token de usuário 
+//Autenticando token de usuário 
    function authenticateToken(req, res, next) {
       const authHeader = req.headers['authorization'];
       const token = authHeader && authHeader.split(' ')[1]
       if(token == null) return res.sendStatus(401)
-   /*caso e servidor retorne status 401 pelo acces token ter expirado,
-     dispare a função refresh token aqui após a validação do mesmo*/
       jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, jwtName) => {
          if (err) return res.sendStatus(403)
-         //req.user = user
          next()
       })
       }
