@@ -110,15 +110,23 @@ const RefreshT = require('../models/token.js');
          return res.status(500).json({message: error.message})
       }
    } 
-
+//Autenticando token de usuário 
+   function authenticateToken(req, res, next) {
+      const authHeader = req.headers['authorization'];
+      const token = authHeader && authHeader.split(' ')[1]
+      if(token == null) return res.sendStatus(401)
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, jwtName) => {
+         if (err) return res.sendStatus(403)
+         next()
+      })
+      }
 /*
-2 - Criar em refreshT mecanismo qua atualize o refresh token do usuário com o id especifico quando expirar o tempo
-3 - Ultilizar refresh token armazenado na DB para gerar novo Access token
 4 - criar rotas de autenticação para criar e deletear exames
 */
 
  module.exports = {
    logUser, 
    refresh,
-   logout
+   logout,
+   authenticateToken
  }

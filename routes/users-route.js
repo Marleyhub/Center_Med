@@ -1,11 +1,10 @@
     const express = require('express');
     const router = express.Router();
     const User = require('../models/user');
-    const {getUsers, getUser, createUser, updateUser, deleteUser, authenticateToken} = require('../controllers/users-controllers.js');
-
+    const {getUsers, getUser, createUser, updateUser, deleteUser} = require('../controllers/users-controllers.js');
 
     // rotas
-    router.get ('/', authenticateToken, getUsers);
+    router.get ('/', getUsers);
 
     router.get('/:id', getUser);
 
