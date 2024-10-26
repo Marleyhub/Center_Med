@@ -1,6 +1,6 @@
    const mongoose = require('mongoose');
    const Exam = require('../models/exam.js');
-   const {User} = require('../models/user.js');
+   const {User} = require('../models/client.js');
 
 
    //criando exame

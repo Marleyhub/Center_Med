@@ -2,11 +2,11 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
-const {User} = require('../models/user.js') ;
+const {User} = require('../models/client.js') ;
 const RefreshT = require('../models/token.js'); 
 
 
-//logando usuário
+//logando usuário user
    const logUser = async (req, res) => {
       const user = await User.findOne({name: req.body.name});
       if (user == null || !user || user == false) {

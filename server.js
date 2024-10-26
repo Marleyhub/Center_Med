@@ -1,11 +1,11 @@
     const express = require('express');
     const mongoose = require('mongoose');
     const app = express();
-    const usersRoute = require('./routes/users-route.js');
+    const clientsRoute = require('./routes/clients-route.js');
     const examsRoute = require('./routes/exam-route.js');
     const User = require('./models/user.js');
+    const Client = require('./models/client.js');
     const Exam = require('./models/exam.js');
-
     const port = 3080;
 
     //middleware 
@@ -18,7 +18,7 @@
 
     //rotas
 
-    app.use('/api/users/', usersRoute);
+    app.use('/api/client/', clientsRoute);
     app.use('/api/exams/', examsRoute);
     //home
     app.get('/', (req,res) => {

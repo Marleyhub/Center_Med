@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const Exam = require('./exam');
-const { logUser } = require('../controllersAuth/clientAuth-controller');
+const Exam = require('./exam')
 const Schema = mongoose.Schema
 
    //validação
@@ -28,7 +27,7 @@ const Schema = mongoose.Schema
                      .default(null),
    }) 
 
-   //model de client
+   //model de usuario
    const userSchema = mongoose.Schema({
          name: {
             type: String,
@@ -68,12 +67,12 @@ const Schema = mongoose.Schema
         );
 
    const User = mongoose.model('User', userSchema);
-   const validateUser = (userData) => {
+   const validateUSer = (userData) => {
       return userSchemaValidation.validate(userData, {abortEarly: false});
    }
 
    module.exports = {
       User,
-      validateUser
+      validateUSer
    }
 
