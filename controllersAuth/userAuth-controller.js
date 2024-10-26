@@ -36,6 +36,7 @@ const RefreshT = require('../models/token.js');
    function generateAccessToken(jwtName) {
       return jwt.sign(jwtName, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
    }
+
 // timer para reinciar o token 
    const tokenAutoRefresh = (expireTimeSeconds, refreshToken) => {
       const refreshTime = (expireTimeSeconds - 1 * 60) * 1000
@@ -55,6 +56,7 @@ const RefreshT = require('../models/token.js');
       }, refreshTime)
 
    }
+
 // calling refresh endpoin
    const callRefreshEndPoint = async (refreshToken) => {
       try {
@@ -77,6 +79,7 @@ const RefreshT = require('../models/token.js');
       }
    
    }
+
 // Refresh token endpoint function
    const refresh = async (req, res) => {
       try{
@@ -112,7 +115,7 @@ const RefreshT = require('../models/token.js');
    } 
 
 /*
-4 - criar rotas de autenticação para criar e deletear exames
+1 - criar rotas de autenticação para criar e deletear exames
 */
 
  module.exports = {
