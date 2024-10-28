@@ -7,7 +7,7 @@ const RefreshT = require('../models/token.js');
 
                         // ESSA VAI SERVIR PRA MANIPULAR REQUISIÇÕES DE USUARIO 
 // listando usuários 
-   const getUser = async (req, res) => {
+   const getUsers = async (req, res) => {
       try {
          const users = await User.find({})
          res.status(200).json(users)
@@ -138,6 +138,7 @@ const RefreshT = require('../models/token.js');
    logUser, 
    refresh,
    logout,
+   getUsers,
    getUser,
    authenticateToken
  }
