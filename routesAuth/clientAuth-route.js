@@ -1,13 +1,18 @@
-const express = require('express');
-const router = express.Router();
-const User = require('../models/client.js');
-const {logUser, refresh, logout} = require('../controllersAuth/clientAuth-controller.js')
+    const express = require('express');
+    const router = express.Router();
+    const Client = require('../models/client.js');
+    const {getClients, getClient, createClient, updateClient, deleteClient} = require('../controllers/client-controllers.js');
 
-router.post('/login', logUser);
+// rotas user
+    router.get ('/', getClients);
 
-router.post('/refresh', refresh);
+    router.get('/:id', getClient);
 
-router.delete('/logout', logout);
+    router.put('/update/:id', updateClient );
 
+    router.delete('/delete/:id', deleteClient);
 
-module.exports = router;
+    router.post('/create', createClient);
+
+   
+    module.exports = router;
