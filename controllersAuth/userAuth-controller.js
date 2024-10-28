@@ -15,7 +15,8 @@ const RefreshT = require('../models/token.js');
          res.status(500).json({message: error.message}) 
       }
    }
-//listando usuário
+
+// listando usuário
    const getUser = async (req,res) => {
       const id = req.body.id
       console.log(id)
@@ -26,7 +27,8 @@ const RefreshT = require('../models/token.js');
          res.status(500).json({message: error.message})
       }
    }
-//logando usuário user
+   
+// logando usuário user
    const logUser = async (req, res) => {
       const user = await User.findOne({name: req.body.name});
       if (user == null || !user || user == false) {
@@ -37,7 +39,7 @@ const RefreshT = require('../models/token.js');
          if(!isMatch) {
             return res.status(400).send('Keys or username incorrect');
          }
-   //jwt auth
+   // jwt auth
       const userName = req.body.name;
       const jwtName = {name: userName};
       const accessToken = generateAccessToken(jwtName);
