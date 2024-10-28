@@ -2,7 +2,7 @@
     const mongoose = require('mongoose');
     const app = express();
     const clientAuthRoute = require('./routesAuth/clientAuth-route.js');
-    const userAuthRoute = require('./routesAuth/clientAuth-route.js');
+    const userAuthRoute = require('./routesAuth/userAuth-route.js');
     const User = require('./models/user.js');
     const Client = require('./models/client.js');
 

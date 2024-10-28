@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 const Exam = require('./exam');
-const { logUser } = require('../controllersAuth/clientAuth-controller');
 const Schema = mongoose.Schema
 
    //validação

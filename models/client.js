@@ -3,8 +3,9 @@ const Joi = require('joi');
 const Exam = require('./exam')
 const Schema = mongoose.Schema
 
+                                 // ESSE PRECISA TRANFORMAR EM MODEL DE CLIENTS QUE AINDA NÃO ACESSAM O SITE
    //validação
-   const userSchemaValidation = Joi.object({
+   const clientSchemaValidation = Joi.object({
       name: Joi.string()
                .pattern(new RegExp('^[a-zA-Z0-9 ]{3,30}$'))
                .required(),
@@ -27,8 +28,8 @@ const Schema = mongoose.Schema
                      .default(null),
    }) 
 
-   //model de usuario
-   const userSchema = mongoose.Schema({
+   //model de client
+   const clientSchema = mongoose.Schema({
          name: {
             type: String,
             required: true,
@@ -62,17 +63,17 @@ const Schema = mongoose.Schema
    },
    
    {
-      timestamp: true,
+      timestamps: true,
    }
         );
 
-   const User = mongoose.model('User', userSchema);
-   const validateUSer = (userData) => {
-      return userSchemaValidation.validate(userData, {abortEarly: false});
+   const Client = mongoose.model('Client', clientSchema);
+   const validateClient = (clientData) => {
+      return clientSchemaValidation.validate(clientData, {abortEarly: false});
    }
 
    module.exports = {
-      User,
-      validateUSer
+      Client,
+      validateClient
    }
 
