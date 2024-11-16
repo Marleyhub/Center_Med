@@ -19,7 +19,6 @@ const RefreshT = require('../models/token.js');
 // listando usuário
    const getUser = async (req,res) => {
       const {id} = req.body
-      console.log(id)
       try {
          const user = await User.findById(id)
          res.status(200).json(user)
@@ -43,7 +42,6 @@ const RefreshT = require('../models/token.js');
       const userName = req.body.name;
       const name = {name: userName};
       const {accessToken, refreshToken} = generateTokens(name)
-      console.log(accessToken, refreshToken)
       res.status(200).cookie('refreshToken', 'Bearer ' + refreshToken)
                      .cookie('accessToken', accessToken)
                      .json('loged')
@@ -54,7 +52,6 @@ const RefreshT = require('../models/token.js');
    }
 //jwt function 
    function generateTokens(name) {
-      console.log(name)
       const accessToken = generateAccessToken(name)
       const refreshToken = jwt.sign(name, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'});
       tokenAutoRefresh(2 * 60, refreshToken)
@@ -63,7 +60,6 @@ const RefreshT = require('../models/token.js');
 
 // gerando access token
    function generateAccessToken(name) {
-      console.log('generateAccessToken')
       return jwt.sign(name, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
    }
 
