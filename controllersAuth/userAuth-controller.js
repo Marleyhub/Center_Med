@@ -5,7 +5,6 @@ const axios = require('axios');
 const {User, validateUser} = require('../models/user.js') ;
 
 
-                        // ESSA VAI SERVIR PRA MANIPULAR REQUISIÇÕES DE USUARIO 
 // listando usuários 
    const getUsers = async (req, res) => {
       try {
