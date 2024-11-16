@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
 const {User, validateUser} = require('../models/user.js') ;
-const RefreshT = require('../models/token.js'); 
+
 
                         // ESSA VAI SERVIR PRA MANIPULAR REQUISIÇÕES DE USUARIO 
 // listando usuários 
