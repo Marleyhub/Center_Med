@@ -41,30 +41,38 @@ const RefreshT = require('../models/token.js');
          }
    // jwt auth
       const userName = req.body.name;
-      const jwtName = {name: userName};
-      const accessToken = generateAccessToken(jwtName);
-      const refreshToken = jwt.sign(jwtName, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'});
-      tokenAutoRefresh(2 * 60, refreshToken);
-      res.status(200).json({accessToken: accessToken,
-                           refreshToken: refreshToken,
-                           user: user
-                           });
+      const name = {name: userName};
+      const {accessToken, refreshToken} = generateTokens(name)
+      console.log(accessToken, refreshToken)
+      res.status(200).cookie('refreshToken', 'Bearer ' + refreshToken)
+                     .cookie('accessToken', accessToken)
+                     .json('loged')
+      return
       } catch (error){ 
          res.status(500).json({message: error.message});
       }
    }
+//jwt function 
+   function generateTokens(name) {
+      console.log(name)
+      const accessToken = generateAccessToken(name)
+      const refreshToken = jwt.sign(name, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'});
+      tokenAutoRefresh(2 * 60, refreshToken)
+      return ({accessToken, refreshToken})
+   }
 
 // gerando access token
-   function generateAccessToken(jwtName) {
-      return jwt.sign(jwtName, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
+   function generateAccessToken(name) {
+      console.log('generateAccessToken')
+      return jwt.sign(name, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
    }
 
 // timer para reinciar o token 
    const tokenAutoRefresh = (expireTimeSeconds, refreshToken) => {
       const refreshTime = (expireTimeSeconds - 1 * 60) * 1000
+      console.log('tokenAtuRefresh')
 
       setTimeout(async () => {
-         console.log('Attempting to refresh access token');
          try {
             const newAccessToken = await callRefreshEndPoint(refreshToken);
             if (newAccessToken) {
@@ -115,6 +123,7 @@ const RefreshT = require('../models/token.js');
             return res.status(200).json({accessToken: accessToken});
             }
          )
+      console.log('refresh')
       } catch (error) {
          console.log('erro catch refresh')
          res.status(500).json({ message: error.message });
@@ -141,7 +150,7 @@ const RefreshT = require('../models/token.js');
       const authHeader = req.headers['authorization'];
       const token = authHeader && authHeader.split(' ')[1]
       if(token == null) return res.sendStatus(401)
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, jwtName) => {
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
          if (err) return res.sendStatus(403)
          next()
       })
