@@ -127,16 +127,13 @@ const RefreshT = require('../models/token.js');
 
 // logout
    const logout = async (req, res) => {
-      try{
-         const result = await RefreshT.deleteOne({userId: req.body._id})
-
-         if(result.deletedCount === 0) {
-            return res.status(404).json({message: 'User not logged'})
-         }
-         return res.status(200).json({message: 'refresh Token deleted successufuly'})
-      } catch (error) {
-         return res.status(500).json({message: error.message})
-      }
+    try{
+      res.status(200).clearCookie('refreshToken')
+                     .clearCookie('accessToken')
+                     .json('logged out')
+    } catch (error) {
+      res.status(500).json({message: error.message})
+    }
    } 
 
 //Autenticando token de usuário 

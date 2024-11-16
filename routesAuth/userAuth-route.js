@@ -7,7 +7,7 @@ router.post('/login', logUser);
 
 router.post('/refresh', refresh);
 
-router.delete('/logout', logout);
+router.post('/logout', logout);
 
 router.get('/users', getUsers);
 
