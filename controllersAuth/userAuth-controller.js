@@ -66,8 +66,6 @@ const RefreshT = require('../models/token.js');
 // timer para reinciar o token 
    const tokenAutoRefresh = (expireTimeSeconds, refreshToken) => {
       const refreshTime = (expireTimeSeconds - 1 * 60) * 1000
-      console.log('tokenAtuRefresh')
-
       setTimeout(async () => {
          try {
             const newAccessToken = await callRefreshEndPoint(refreshToken);
