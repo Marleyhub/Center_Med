@@ -81,7 +81,7 @@ const RefreshT = require('../models/token.js');
 
    }
 
-// calling refresh endpoin
+// calling refresh endpoint
    const callRefreshEndPoint = async (refreshToken) => {
       try {
          if(!refreshToken || refreshToken == null) {
@@ -104,7 +104,7 @@ const RefreshT = require('../models/token.js');
    
    }
 
-// Refresh token endpoint function
+// Refresh token endpoint 
    const refresh = async (req, res) => {
       try{
          const token = req.body.token
