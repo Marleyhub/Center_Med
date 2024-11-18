@@ -27,7 +27,7 @@ const Schema = mongoose.Schema
                      .default(null),
    }) 
 
-   //model de client
+   //model de usuário
    const userSchema = mongoose.Schema({
          name: {
             type: String,

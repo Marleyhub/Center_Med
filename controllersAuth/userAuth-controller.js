@@ -43,7 +43,7 @@ const {User, validateUser} = require('../models/user.js') ;
       const {accessToken, refreshToken} = generateTokens(name)
       res.status(200).cookie('refreshToken', 'Bearer ' + refreshToken)
                      .cookie('accessToken', accessToken)
-                     .json('loged')
+                     .json('logged in')
       return
       } catch (error){ 
          res.status(500).json({message: error.message});

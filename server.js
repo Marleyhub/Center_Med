@@ -17,7 +17,6 @@
 
     //rotas
 
-
     app.use('/api/exams/', examsRoute);
     //home
     app.get('/', (req,res) => {
@@ -34,3 +33,7 @@
         console.log('mongo-client connection Error')
     })
 
+
+
+
+    // Agendamento de Consultas: Permita que os usuários agendem novas consultas.
