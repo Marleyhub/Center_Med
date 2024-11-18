@@ -5,7 +5,7 @@ const axios = require('axios');
 const {User, validateUser} = require('../models/user.js') ;
 
    
-// logando usuário user
+// logando usuário
    const logUser = async (req, res) => {
       const user = await User.findOne({name: req.body.name});
       if (user == null || !user || user == false) {
@@ -28,6 +28,28 @@ const {User, validateUser} = require('../models/user.js') ;
          res.status(500).json({message: error.message});
       }
    }
+
+// listando usuários 
+   const getUsers = async (req, res) => {
+      try {
+         const users = await User.find({})
+         res.status(200).json(users)
+      } catch (error) {
+         res.status(500).json({message: error.message}) 
+      }
+   }
+
+// listando usuário
+   const getUser = async (req,res) => {
+      const {id} = req.body
+      try {
+         const user = await User.findById(id)
+         res.status(200).json(user)
+      } catch (error) {
+         res.status(500).json({message: error.message})
+      }
+   }
+
 // jwt function 
    function generateTokens(name) {
       const accessToken = generateAccessToken(name)
@@ -103,38 +125,6 @@ const {User, validateUser} = require('../models/user.js') ;
          
    }
 
-// listando usuários 
-   const getUsers = async (req, res) => {
-      try {
-         const users = await User.find({})
-         res.status(200).json(users)
-      } catch (error) {
-         res.status(500).json({message: error.message}) 
-      }
-   }
-
-// listando usuário
-   const getUser = async (req,res) => {
-      const {id} = req.body
-      try {
-         const user = await User.findById(id)
-         res.status(200).json(user)
-      } catch (error) {
-         res.status(500).json({message: error.message})
-      }
-   }
-
-// logout
-   const logout = async (req, res) => {
-    try{
-      res.status(200).clearCookie('refreshToken')
-                     .clearCookie('accessToken')
-                     .json('logged out')
-    } catch (error) {
-      res.status(500).json({message: error.message})
-    }
-   } 
-
 // Autenticando token de usuário 
    function authenticateToken(req, res, next) {
       const authHeader = req.headers['authorization'];
@@ -146,6 +136,16 @@ const {User, validateUser} = require('../models/user.js') ;
       })
       }
 
+// logout
+const logout = async (req, res) => {
+   try{
+     res.status(200).clearCookie('refreshToken')
+                    .clearCookie('accessToken')
+                    .json('logged out')
+   } catch (error) {
+     res.status(500).json({message: error.message})
+   }
+  } 
  module.exports = {
    logUser, 
    refresh,
