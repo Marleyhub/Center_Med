@@ -5,10 +5,7 @@
 
    const saltRounds = 10 
 
-
-                                            // ESSA CONTINUA IGUAL SERÃO AS AÇOES QUE O ADM_USER ATRAVES DA ROTA DELE 
-
-                                            
+                           
 // Listar usuários user
    const getClients =  async (req,res) => {
          try{

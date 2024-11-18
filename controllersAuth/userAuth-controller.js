@@ -49,7 +49,7 @@ const {User, validateUser} = require('../models/user.js') ;
          res.status(500).json({message: error.message});
       }
    }
-//jwt function 
+// jwt function 
    function generateTokens(name) {
       const accessToken = generateAccessToken(name)
       const refreshToken = jwt.sign(name, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'});
@@ -124,6 +124,27 @@ const {User, validateUser} = require('../models/user.js') ;
          
    }
 
+// listando usuários 
+   const getUsers = async (req, res) => {
+      try {
+         const users = await User.find({})
+         res.status(200).json(users)
+      } catch (error) {
+         res.status(500).json({message: error.message}) 
+      }
+   }
+
+// listando usuário
+   const getUser = async (req,res) => {
+      const {id} = req.body
+      try {
+         const user = await User.findById(id)
+         res.status(200).json(user)
+      } catch (error) {
+         res.status(500).json({message: error.message})
+      }
+   }
+
 // logout
    const logout = async (req, res) => {
     try{
@@ -135,7 +156,7 @@ const {User, validateUser} = require('../models/user.js') ;
     }
    } 
 
-//Autenticando token de usuário 
+// Autenticando token de usuário 
    function authenticateToken(req, res, next) {
       const authHeader = req.headers['authorization'];
       const token = authHeader && authHeader.split(' ')[1]
