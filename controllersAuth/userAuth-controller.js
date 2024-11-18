@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
 const {User, validateUser} = require('../models/user.js') ;
+const saltRounds = 10
 
    
 // logando usuário
@@ -49,6 +50,29 @@ const {User, validateUser} = require('../models/user.js') ;
          res.status(500).json({message: error.message})
       }
    }
+// criando usário 
+const createUser = async (req, res) => {
+   try{
+      const {error, value} = validateUser(req.body)
+      if(error) {
+         return res.status(400).json({error: error.details.map(d => d.message)})
+      }
+      //hash de senha
+      const salt = await bcrypt.genSalt(saltRounds)
+      const hashedPassword = await bcrypt.hash(req.body.password, salt)
+   
+      const user = User.create({
+         name: value.name,
+         age: value.age,
+         password: hashedPassword,
+         healthcare: value.healthcare,
+         address: value.address
+      })
+      res.status(200).json(value)
+   }catch (error){
+      res.status(500).json({message: error.message})
+   }
+}
 
 // jwt function 
    function generateTokens(name) {
@@ -152,5 +176,6 @@ const logout = async (req, res) => {
    logout,
    getUsers,
    getUser,
+   createUser,
    authenticateToken
  }
