@@ -9,10 +9,7 @@ const Schema = mongoose.Schema
       name: Joi.string()
                .pattern(new RegExp('^[a-zA-Z0-9 ]{3,30}$'))
                .required(),
-
-      password: Joi.string()
-                   .pattern(new RegExp('^[a-zA-Z0-9$./]{0,8}$')),
-
+               
       age: Joi.number()
               .integer()
               .min(0)
@@ -44,10 +41,6 @@ const Schema = mongoose.Schema
             type: String,
             required: true,
 
-         },
-         password: {
-            type: String,
-            required: true,
          },
 
          healthcare: {
