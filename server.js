@@ -2,7 +2,7 @@
     const mongoose = require('mongoose');
     const app = express();
     const examsRoute = require('./routes/exam-route.js');
-    const User = require('./models/user.js');
+//  const User = require('./models/user.js');
     const Client = require('./models/client.js');
     const Exam = require('./models/exam.js');
     const port = 3080;

@@ -1,10 +1,8 @@
     const express = require('express');
     const mongoose = require('mongoose');
     const app = express();
-    const clientAuthRoute = require('./routesAuth/clientAuth-route.js');
     const userAuthRoute = require('./routesAuth/userAuth-route.js');
     const User = require('./models/user.js');
-    const Client = require('./models/client.js');
 
 
     const port = 4080;
@@ -19,7 +17,7 @@
 
     //rotas
 
-    app.use('/api/client/auth', clientAuthRoute);
+ // app.use('/api/client/auth', clientAuthRoute);
     app.use('/api/user/auth', userAuthRoute);
 
     //homes
