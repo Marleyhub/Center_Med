@@ -162,34 +162,51 @@ const createUser = async (req, res) => {
       }
 
 // logout
-const logout = async (req, res) => {
-   try{
-     res.status(200).clearCookie('refreshToken')
-                    .clearCookie('accessToken')
-                    .json('logged out')
-   } catch (error) {
-     res.status(500).json({message: error.message})
-   }
-  } 
-  
-// Schedualing a exam
-const schedual = async (req, res) => {
-   const token = req.cookies['accessToken']
-   const {examId} = req.body 
+   const logout = async (req, res) => {
+      try{
+      res.status(200).clearCookie('refreshToken')
+                     .clearCookie('accessToken')
+                     .json('logged out')
+      } catch (error) {
+      res.status(500).json({message: error.message})
+      }
+   } 
    
-   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      if(!user) console.log('Error in the exam schedual')
+// Scheduling a exam
+   const schedule = async (req, res) => {
+      const token = req.cookies['accessToken']
+      const {examId} = req.body 
+      
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+         if(!user) console.log('Error in the exam schedual')
+            const userId = user.id
+
+         User.findByIdAndUpdate(userId,
+            { $addToSet: { examId: examId } },
+            { new: true }
+            )
+            .then(updatedUser => console.log("Updated user:", updatedUser))
+            .catch(err => console.error("Error updating user:", err));
+      }
+      )
+   }
+// uncheck exam
+   const uncheckExam = async (req, res) => {
+      const token = req.cookies['accessToken']
+      const {examId} = req.body
+
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+         if(!user) console.log('Error in the exam uncheck');
          const userId = user.id
 
-      User.findByIdAndUpdate(userId,
-         { $addToSet: { examId: examId } },
-         { new: true }
-         )
-         .then(updatedUser => console.log("Updated user:", updatedUser))
-         .catch(err => console.error("Error updating user:", err));
+         User.findByIdAndUpdate(userId,
+            { $pull: { examId: examId } },
+            { new: true }
+            )
+            .then(updatedUser => console.log("Updated user:", updatedUser))
+            .catch(err => console.error("Error updating user:", err));
+      })
    }
-   )
-}
  
  module.exports = {
    logUser, 
@@ -199,5 +216,6 @@ const schedual = async (req, res) => {
    getUser,
    createUser,
    authenticateToken,
-   schedual
+   schedule,
+   uncheckExam
  }

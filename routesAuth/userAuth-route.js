@@ -11,7 +11,9 @@ router.post('/refresh', refresh);
 
 router.post('/logout', logout);
 
-router.post('/schedual', schedual);
+router.post('/schedual', schedule);
+
+router.post('/uncheck', uncheckExam)
 
 router.get('/users', getUsers);
 
