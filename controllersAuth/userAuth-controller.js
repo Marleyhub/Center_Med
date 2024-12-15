@@ -19,9 +19,9 @@ const saltRounds = 10
             return res.status(400).send('Keys or username incorrect');
          }
    // jwt auth
-      const userName = req.body.name;
-      const name = {name: userName};
-      const {accessToken, refreshToken} = generateTokens(name)
+      const {userId} = req.body
+      const id = {id: userId};
+      const {accessToken, refreshToken} = generateTokens(id)
       res.status(200).cookie('refreshToken', 'Bearer ' + refreshToken)
                      .cookie('accessToken', accessToken)
                      .json('logged in')
