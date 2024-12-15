@@ -24,7 +24,7 @@
       }
    }
 
-   // deletando exame
+// deletando exame
    const deleteExam = async (req, res) => {
       try {
          const {id} = req.params
@@ -36,7 +36,7 @@
       }
    }
 
-   // Marcando consulta
+// Marcando consulta
    async function scheduleCreate (req, res) {
       const {userId} = req.body
       const {examId} = req.body
@@ -57,7 +57,7 @@
         }
    }
 
-   //Desmarcando consulta
+// Desmarcando consulta
    async function scheduleDelete(req, res) {
 
       const {userId} = req.body
