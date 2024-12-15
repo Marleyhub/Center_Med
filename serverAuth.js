@@ -37,3 +37,13 @@
         console.log('mongo-client connection Error')
     })
 
+  /* 
+ 
+
+   4 - change in the jwt logic the reference id to payload being this object: {
+                                                                                name: userName,
+                                                                                id: userId
+                                                                               }
+   5 - make a pdf file of the consult 
+  
+  */

@@ -3,21 +3,18 @@
    const {User} = require('../models/client.js');
 
 
-   //criando exame
+ // criando exame
    const createExam = async (req, res) => {
       try{
-      const exam = await Exam.create({
-         name: req.body.name,
-         duration: req.body.duration,
-         about: req.body.about
-      });
-      return res.status(200).json(exam)
-      } catch (error) {
-      return res.status(404).json({message: error.message})
-      }
+         const {name, about, user, payment, appointmentDate} = req.body
+         const exam = await  Exam.create({ name, about, user, payment, appointmentDate });
+         return res.status(201).json(exam)
+         } catch (error) {
+            return res.status(500).json({message: error.message})
+         }
    }
 
-   // listando todos os exames
+// listando todos os exames
    const getExam = async (req, res) => {
       try{
       const exam = await Exam.find();
