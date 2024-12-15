@@ -6,14 +6,26 @@ const examSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    duration: {
-        type: String,
-        required: true
-    },
 
     about: {
         type: String,
         Required: true
+    },
+
+    appointmentDate: {
+        type: Date,
+        required: true
+    },
+
+    payment: {
+        type: String,
+        required: true
+    },
+    
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 })
 
