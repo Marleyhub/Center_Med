@@ -7,6 +7,8 @@
     const Exam = require('./models/exam.js');
     const port = 3080;
 
+    //console.log(process.cwd());
+    
     //middleware 
     app.use(express.json());
     app.use(express.urlencoded({extended: false}));

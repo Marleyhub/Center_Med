@@ -171,6 +171,26 @@ const logout = async (req, res) => {
      res.status(500).json({message: error.message})
    }
   } 
+  
+// Schedualing a exam
+const schedual = async (req, res) => {
+   const token = req.cookies['accessToken']
+   const {examId} = req.body 
+   
+   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      if(!user) console.log('Error in the exam schedual')
+         const userId = user.id
+
+      User.findByIdAndUpdate(userId,
+         { $addToSet: { examId: examId } },
+         { new: true }
+         )
+         .then(updatedUser => console.log("Updated user:", updatedUser))
+         .catch(err => console.error("Error updating user:", err));
+   }
+   )
+}
+ 
  module.exports = {
    logUser, 
    refresh,
@@ -178,5 +198,6 @@ const logout = async (req, res) => {
    getUsers,
    getUser,
    createUser,
-   authenticateToken
+   authenticateToken,
+   schedual
  }
