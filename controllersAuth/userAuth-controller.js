@@ -5,8 +5,9 @@ const axios = require('axios');
 const {User, validateUser} = require('../models/user.js') ;
 const saltRounds = 10
 
+
    
-// logando usuário
+// log user
    const logUser = async (req, res) => {
       const user = await User.findOne({name: req.body.name});
       if (user == null || !user || user == false) {
@@ -30,7 +31,7 @@ const saltRounds = 10
       }
    }
 
-// listando usuários 
+// getting all users
    const getUsers = async (req, res) => {
       try {
          const users = await User.find({})
@@ -40,7 +41,7 @@ const saltRounds = 10
       }
    }
 
-// listando usuário
+// getting one user
    const getUser = async (req,res) => {
       const {id} = req.body
       try {
@@ -50,14 +51,14 @@ const saltRounds = 10
          res.status(500).json({message: error.message})
       }
    }
-// criando usário 
+// creating user 
 const createUser = async (req, res) => {
    try{
       const {error, value} = validateUser(req.body)
       if(error) {
          return res.status(400).json({error: error.details.map(d => d.message)})
       }
-      //hash de senha
+      //hashing password
       const salt = await bcrypt.genSalt(saltRounds)
       const hashedPassword = await bcrypt.hash(req.body.password, salt)
    
@@ -75,19 +76,19 @@ const createUser = async (req, res) => {
 }
 
 // jwt function 
-   function generateTokens(name) {
-      const accessToken = generateAccessToken(name)
-      const refreshToken = jwt.sign(name, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'});
+   function generateTokens(id) {
+      const accessToken = generateAccessToken(id)
+      const refreshToken = jwt.sign(id, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '240s'});
       tokenAutoRefresh(2 * 60, refreshToken)
       return ({accessToken, refreshToken})
    }
 
-// gerando access token
-   function generateAccessToken(name) {
-      return jwt.sign(name, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
+// generating access token
+   function generateAccessToken(id) {
+      return jwt.sign(id, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
    }
 
-// timer para reinciar o token 
+// timer to reset token 
    const tokenAutoRefresh = (expireTimeSeconds, refreshToken) => {
       const refreshTime = (expireTimeSeconds - 1 * 60) * 1000
       setTimeout(async () => {
@@ -149,7 +150,7 @@ const createUser = async (req, res) => {
          
    }
 
-// Autenticando token de usuário 
+// authenticanting user token
    function authenticateToken(req, res, next) {
       const authHeader = req.headers['authorization'];
       const token = authHeader && authHeader.split(' ')[1]
