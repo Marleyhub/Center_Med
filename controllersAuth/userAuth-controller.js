@@ -175,39 +175,79 @@ const createUser = async (req, res) => {
    
 // Scheduling a exam
    const schedule = async (req, res) => {
-      const token = req.cookies['accessToken']
-      const {examId} = req.body 
-      
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-         if(!user) console.log('Error in the exam schedual')
-            const userId = user.id
-
-         User.findByIdAndUpdate(userId,
-            { $addToSet: { examId: examId } },
-            { new: true }
-            )
-            .then(updatedUser => console.log("Updated user:", updatedUser))
-            .catch(err => console.error("Error updating user:", err));
+      try {
+         const token = req.cookies['accessToken']
+         const {examId, appointmentDate} = req.body 
+         
+         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            if(!user) console.log('Error in the exam schedual')
+               const userId = user.id
+   
+            User.findByIdAndUpdate(userId,
+               { $addToSet: { examId: examId }, },
+               { new: true }
+               )
+               .then(updatedUser => console.log("Updated user:", updatedUser))
+               .catch(err => console.error("Error updating user:", err));
+         }
+         )
+      } catch (error) {
+         res.status(500).json({message: error.message})
       }
-      )
+      
    }
 // uncheck exam
    const uncheckExam = async (req, res) => {
-      const token = req.cookies['accessToken']
-      const {examId} = req.body
-
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-         if(!user) console.log('Error in the exam uncheck');
-         const userId = user.id
-
-         User.findByIdAndUpdate(userId,
-            { $pull: { examId: examId } },
-            { new: true }
-            )
-            .then(updatedUser => console.log("Updated user:", updatedUser))
-            .catch(err => console.error("Error updating user:", err));
-      })
+      try {
+         const token = req.cookies['accessToken']
+         const {examId} = req.body
+   
+         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            if(!user) console.log('Error in the exam uncheck');
+            const userId = user.id
+   
+            User.findByIdAndUpdate(userId,
+               { $pull: { examId: examId } },
+               { new: true }
+               )
+               .then(updatedUser => console.log("Updated user:", updatedUser))
+               .catch(err => console.error("Error updating user:", err));
+         })
+      } catch (error) {
+         res.status(500).json({message: error.message})
+      }
    }
+
+// update exam 
+const updateExam = async (req, res) => {
+   const token = req.cookies['accessToken'];
+   const { payment, appointmentDate, examId } = req.body;
+
+   try {
+      if (!token) {
+         return res.status(401).json({ message: 'No access token provided' });
+      }
+
+      const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      if (!user) {
+         return res.status(403).json({ message: 'Invalid token' });
+      }
+
+      const updatedExam = await Exam.findByIdAndUpdate(
+         examId,
+         { payment, appointmentDate, user: user.id },
+         { new: true } // Return the updated document
+      );
+
+      if (!updatedExam) {
+         return res.status(404).json({ message: 'Exam not found' });
+      }
+
+      res.status(200).json({ message: 'Exam updated', updatedExam });
+   } catch (error) {
+      res.status(500).json({ message: error.message });
+   }
+};
  
  module.exports = {
    logUser, 
@@ -218,5 +258,6 @@ const createUser = async (req, res) => {
    createUser,
    authenticateToken,
    schedule,
-   uncheckExam
+   uncheckExam,
+   updateExam
  }

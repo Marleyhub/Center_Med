@@ -9,7 +9,8 @@ const {logUser,
        authenticateToken,
        createUser,
        schedule,
-       uncheckExam} = require('../controllersAuth/userAuth-controller.js');
+       uncheckExam,
+       updateExam} = require('../controllersAuth/userAuth-controller.js');
 
 router.post('/create', createUser)
 
