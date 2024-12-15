@@ -24,6 +24,8 @@ router.post('/schedual', schedule);
 
 router.post('/uncheck', uncheckExam)
 
+router.put('/update', updateExam);
+
 router.get('/users', getUsers);
 
 router.get('/user', getUser);
