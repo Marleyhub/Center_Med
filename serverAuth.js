@@ -3,6 +3,7 @@
     const app = express();
     const userAuthRoute = require('./routesAuth/userAuth-route.js');
     const User = require('./models/user.js');
+    const cookieParser = require('cookie-parser')
 
 
     const port = 4080;
@@ -10,6 +11,7 @@
     //middleware 
     app.use(express.json());
     app.use(express.urlencoded({extended: false}));
+    app.use(cookieParser());
 
     app.listen(port, ()=> {
         console.log(`serverAuth listening to port ${port}`)
