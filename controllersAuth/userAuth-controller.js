@@ -20,9 +20,9 @@ const saltRounds = 10
             return res.status(400).send('Keys or username incorrect');
          }
    // jwt auth
-      const {userId} = req.body
-      const id = {id: userId};
-      const {accessToken, refreshToken} = generateTokens(id)
+      const {userId, name} = req.body
+      const payload = {id: userId, name: name};
+      const {accessToken, refreshToken} = generateTokens(payload)
       res.status(200).cookie('refreshToken', 'Bearer ' + refreshToken)
                      .cookie('accessToken', accessToken)
                      .json('logged in')
@@ -77,16 +77,16 @@ const createUser = async (req, res) => {
 }
 
 // jwt function 
-   function generateTokens(id) {
-      const accessToken = generateAccessToken(id)
-      const refreshToken = jwt.sign(id, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '240s'});
+   function generateTokens(payload) {
+      const accessToken = generateAccessToken(payload)
+      const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'});
       tokenAutoRefresh(2 * 60, refreshToken)
       return ({accessToken, refreshToken})
    }
 
 // generating access token
-   function generateAccessToken(id) {
-      return jwt.sign(id, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
+   function generateAccessToken(payload) {
+      return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
    }
 
 // timer to reset token 
