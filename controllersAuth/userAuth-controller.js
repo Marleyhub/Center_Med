@@ -2,7 +2,8 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
-const {User, validateUser} = require('../models/user.js') ;
+const {User, validateUser} = require('../models/user.js');
+const Exam = require('../models/exam.js')
 const saltRounds = 10
 
 
