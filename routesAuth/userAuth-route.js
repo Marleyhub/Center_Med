@@ -1,7 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/client.js');
-const {logUser, refresh, logout, getUsers, getUser, authenticateToken, createUser, schedual} = require('../controllersAuth/userAuth-controller.js')
+const {logUser,
+       refresh,
+       logout,
+       getUsers,
+       getUser,
+       authenticateToken,
+       createUser,
+       schedule,
+       uncheckExam} = require('../controllersAuth/userAuth-controller.js');
 
 router.post('/create', createUser)
 
