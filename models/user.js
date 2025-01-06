@@ -66,6 +66,18 @@ const Schema = mongoose.Schema
    }
         );
 
+   userSchema.statics.findExams = async function (userId) {
+      try {
+         const user = await this.findById(userId)
+         if (!user) {
+            throw new Error('user not found')
+         }
+         return user.examId
+      }  catch (error) {
+            throw new Error (error)
+      }
+   }
+
    const User = mongoose.model('User', userSchema);
    const validateUser = (userData) => {
       return userSchemaValidation.validate(userData, {abortEarly: false});
