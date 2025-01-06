@@ -10,7 +10,8 @@ const {logUser,
        createUser,
        schedule,
        uncheckExam,
-       updateExam} = require('../controllersAuth/userAuth-controller.js');
+       updateExam,
+       printExam} = require('../controllersAuth/userAuth-controller.js');
 
 router.post('/create', createUser)
 
@@ -29,6 +30,8 @@ router.put('/update', updateExam);
 router.get('/users', getUsers);
 
 router.get('/user', getUser);
+
+router.get('/printExam', printExam)
 
 
 module.exports = router;

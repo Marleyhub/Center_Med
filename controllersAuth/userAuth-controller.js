@@ -255,6 +255,27 @@ const schedule = async (req, res) => {
       res.status(500).json({ message: error.message });
    }
 };
+
+// print exam
+   const printExam = async (req, res) => {
+      try {
+         const token = req.cookies['accessToken']
+         const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+         if(!payload){
+            return res.status(401).json({message: 'invalid token'})
+         }
+         const userId = payload.id
+         const exams = await User.findExams(userId)
+         if (!exams || exams.length === 0) {
+            return res.status(404).json({ message: 'No exams found for this user' });
+       }
+         return res.status(200).json({exams})
+      } catch (err) {
+         res.status(500).json({message: error.message})
+      } 
+   } 
+      
+
  
  module.exports = {
    logUser, 
@@ -266,5 +287,6 @@ const schedule = async (req, res) => {
    authenticateToken,
    schedule,
    uncheckExam,
-   updateExam
+   updateExam,
+   printExam
  }

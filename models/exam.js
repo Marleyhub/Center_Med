@@ -27,7 +27,8 @@ const examSchema = mongoose.Schema({
         ref: 'User',
         required: true
     }
-})
+});
+
 
 const Exam = mongoose.model('Exam', examSchema);
 module.exports = Exam;
