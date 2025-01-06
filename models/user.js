@@ -3,7 +3,7 @@ const Joi = require('joi');
 const Exam = require('./exam');
 const Schema = mongoose.Schema
 
-   //validação
+// validation
    const userSchemaValidation = Joi.object({
       name: Joi.string()
                .pattern(new RegExp('^[a-zA-Z0-9 ]{3,30}$'))
@@ -27,7 +27,7 @@ const Schema = mongoose.Schema
                      .default(null),
    }) 
 
-   //model de usuário
+// user model
    const userSchema = mongoose.Schema({
          name: {
             type: String,

@@ -8,7 +8,7 @@
 
     const port = 4080;
 
-    //middleware 
+// middleware 
     app.use(express.json());
     app.use(express.urlencoded({extended: false}));
     app.use(cookieParser());
@@ -17,18 +17,12 @@
         console.log(`serverAuth listening to port ${port}`)
     });
 
-    //rotas
-
- // app.use('/api/client/auth', clientAuthRoute);
+// rotas
     app.use('/api/user/auth', userAuthRoute);
-
-    //homes
-    app.get('/', (req,res) => {
-       res.send('Server Alive') 
-    });   
+    app.get('/', (req,res) => {res.send('Server Alive')});   
 
 
-    //conectando no banco de dados
+// Conecting to database
     mongoose.connect(
     "mongodb+srv://gabrielmtg2:t2TnTvqDih29eY0b@nodedb.2a6h5ag.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODEDB"
     ).then(
@@ -38,12 +32,7 @@
     })
 
   /* 
- 
-
-   4 - change in the jwt logic the reference id to payload being this object: {
-                                                                                name: userName,
-                                                                                id: userId
-                                                                               }
    5 - make a pdf file of the consult 
-  
+   8 - study and adjust HTTP methods this fiz code tags
+   9 - **Visualização de Consultas:** Permita que os usuários vejam informações detalhadas sobre suas consultas, a rota deve ser criptografada com um link de acesso único.
   */
