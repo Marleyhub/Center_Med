@@ -10,25 +10,8 @@ const examSchema = mongoose.Schema({
     about: {
         type: String,
         Required: true
-    },
-
-    appointmentDate: {
-        type: Date,
-        required: true
-    },
-
-    payment: {
-        type: String,
-        required: true
-    },
-    
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
     }
 });
-
 
 const Exam = mongoose.model('Exam', examSchema);
 module.exports = Exam;
