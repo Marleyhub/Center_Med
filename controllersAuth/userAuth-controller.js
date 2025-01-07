@@ -218,7 +218,7 @@ const schedule = async (req, res) => {
             {$pull: {examId: examId}},
             {new: true}
          )
-         
+
          res.status(200).json(updatedUser)
       } catch (error) {
          res.status(500).json({message: error.message})
@@ -261,20 +261,25 @@ const schedule = async (req, res) => {
       try {
          const token = req.cookies['accessToken']
          const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+
          if(!payload){
             return res.status(401).json({message: 'invalid token'})
          }
+
          const userId = payload.id
          const exams = await User.findExams(userId)
+
          if (!exams || exams.length === 0) {
             return res.status(404).json({ message: 'No exams found for this user' });
        }
+       
          return res.status(200).json({exams})
-      } catch (err) {
+
+      } catch (error) {
          res.status(500).json({message: error.message})
       } 
    } 
-      
+
 
  
  module.exports = {
