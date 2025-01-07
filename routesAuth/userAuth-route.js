@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/client.js');
+const User = require('../models/user.js');
 const {logUser,
        refresh,
        logout,
