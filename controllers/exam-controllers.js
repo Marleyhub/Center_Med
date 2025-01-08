@@ -1,13 +1,13 @@
    const mongoose = require('mongoose');
    const Exam = require('../models/exam.js');
-   const {User} = require('../models/client.js');
+   const {User} = require('../models/user.js');
 
 
  // criando exame
    const createExam = async (req, res) => {
       try{
-         const {name, about, user, payment, appointmentDate} = req.body
-         const exam = await  Exam.create({ name, about, user, payment, appointmentDate });
+         const {name, about} = req.body
+         const exam = await  Exam.create({ name, about});
          return res.status(201).json(exam)
          } catch (error) {
             return res.status(500).json({message: error.message})
