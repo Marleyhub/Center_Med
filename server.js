@@ -2,22 +2,26 @@
     const mongoose = require('mongoose');
     const app = express();
     const examsRoute = require('./routes/exam-route.js');
+    const appointmentRoute = require('./routes/appointment-route.js')
 //  const User = require('./models/user.js');
     const Exam = require('./models/exam.js');
+    const Appointment = require('./models/appointment.js');
+    const cookieParser = require('cookie-parser');
     const port = 3080;
 
     //console.log(process.cwd());
     
     //middleware 
     app.use(express.json());
-    app.use(express.urlencoded({extended: false}));
+    app.use(express.urlencoded({extended: false}));  
+    app.use(cookieParser());
 
     app.listen(port, ()=> {
         console.log(`server listening to port ${port}`)
     });
 
     //rotas
-
+    app.use('/api/appointment/', appointmentRoute)
     app.use('/api/exams/', examsRoute);
     //home
     app.get('/', (req,res) => {
