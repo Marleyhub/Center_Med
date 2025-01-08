@@ -1,7 +1,8 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const Appointment = require('../models/appointment')
+const Appointment = require('../models/appointment');
+const { object } = require('joi');
 
 
 // booking Exam
