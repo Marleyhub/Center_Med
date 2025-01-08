@@ -14,18 +14,42 @@ const Appointment = require('../models/appointment')
             const payment = 'Pix'
         
             if(!token) {
-                res.status(402).json({message: 'Error with token verification'})
+                return res.status(402).json({message: 'Error with token verification'});
             }
             if(!payload || !examId) {
-                res.status(401).json({message: 'You are lacking of critical information'});  
-                return  
+                return res.status(400).json({message: 'You are lacking of critical information'});  
             }
 
-            const bookedExam = await Appointment.create({examId, payment, user})
-            res.status(200).json({status: 'Appointment created successfully'})
+            const apList = await Appointment.find();
+
+            const isValidated = bookingValidation(user, examId, apList);
+            
+            if(isValidated !== true){
+                return res.status(400).json('Exam already booked')
+            }
+            const bookedExam = await Appointment.create({examId, payment, user});
+
+            res.status(201).json({status: 'Appointment created successfully'});
 
         } catch (err) {
             res.status(500).json({message: err.message})
+        }
+    }
+
+    const bookingValidation = (user, examId, apList) => {
+        try{ 
+            for (let i = 0; i < apList.length; i++) {
+
+                let apStringList = apList[i].user.toString();
+                let examIdStringlist = apList[i].examId.toString();
+
+                if (apStringList == user && examIdStringlist == examId ){
+                    return false
+                }
+            }
+            return true
+        } catch (err) {
+            return err.message
         }
     }
     
