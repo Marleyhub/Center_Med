@@ -30,9 +30,3 @@
     ).catch(()=>{
         console.log('mongo-client connection Error')
     })
-
-  /* 
-   5 - make a pdf file of the consult 
-   8 - study and adjust HTTP methods this fiz code tags
-   9 - **Visualização de Consultas:** Permita que os usuários vejam informações detalhadas sobre suas consultas, a rota deve ser criptografada com um link de acesso único.
-  */

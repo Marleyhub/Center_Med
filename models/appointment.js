@@ -1,20 +1,15 @@
-//const { string } = require('joi');
 const mongoose = require('mongoose');
 
-const examSchema = mongoose.Schema({
-    name: {
-        type: String,
+const appointmentSchema = mongoose.Schema({
+    examId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Exam',
         required: true
     },
 
-    about: {
-        type: String,
-        Required: true
-    },
-
-    appointmentDate: {
+    date: {
         type: Date,
-        required: true
+        default: Date.now
     },
 
     payment: {
@@ -30,5 +25,5 @@ const examSchema = mongoose.Schema({
 });
 
 
-const Exam = mongoose.model('Exam', examSchema);
-module.exports = Exam;
+const Appointment = mongoose.model('Appointment', appointmentSchema);
+module.exports = Appointment;
