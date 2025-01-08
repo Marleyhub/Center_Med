@@ -14,7 +14,7 @@ const Appointment = require('../models/appointment')
             const payment = 'Pix'
         
             if(!token) {
-                res.status(402).json(token)
+                res.status(402).json({message: 'Error with token verification'})
             }
             if(!payload || !examId) {
                 res.status(401).json({message: 'You are lacking of critical information'});  
