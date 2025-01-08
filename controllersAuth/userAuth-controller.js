@@ -6,7 +6,6 @@ const {User, validateUser} = require('../models/user.js');
 const Exam = require('../models/exam.js')
 const saltRounds = 10
 
-
    
 // log user
    const logUser = async (req, res) => {
