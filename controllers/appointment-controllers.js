@@ -2,7 +2,9 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Appointment = require('../models/appointment');
-const { object } = require('joi');
+const fs = require('fs');
+const PDFDocument = require('pdfkit')
+const path = require('path')
 
 
 // booking Exam
