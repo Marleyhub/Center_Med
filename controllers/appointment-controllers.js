@@ -16,13 +16,11 @@ const { object } = require('joi');
             if(!token) {
                 return res.status(402).json({message: 'Error with token verification'});
             }
-            if(!payload || !examId) {
+            if(!payload || !exam) {
                 return res.status(400).json({message: 'You are lacking of critical information'});  
             }
 
-            const apList = await Appointment.find();
-
-            const isValidated = bookingValidation(user, examId, apList);
+            const booked = await Appointment.findOne({user, exam});
             
             if(isValidated !== true){
                 return res.status(400).json('Exam already booked')
