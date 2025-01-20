@@ -28,29 +28,18 @@ const { object } = require('joi');
             } else {
                 res.status(400).json({message: 'Exam Already booked'})
             }
-            const bookedExam = await Appointment.create({examId, payment, user});
-
-            res.status(201).json({status: 'Appointment created successfully'});
-
         } catch (err) {
             res.status(500).json({message: err.message})
         }
     }
-
-    const bookingValidation = (user, examId, apList) => {
-        try{ 
-            for (let i = 0; i < apList.length; i++) {
-
-                let apStringList = apList[i].user.toString();
-                let examIdStringlist = apList[i].examId.toString();
-
-                if (apStringList == user && examIdStringlist == examId ){
-                    return false
-                }
-            }
-            return true
+   
+// getting all Exams
+    const getAppointments = async (req, res) => {
+        try{
+            const appointmentList = await Appointment.find()
+            res.status(200).json(appointmentList)
         } catch (err) {
-            return err.message
+            res.status(500).json({message: err.message})
         }
     }
     
