@@ -22,8 +22,11 @@ const { object } = require('joi');
 
             const booked = await Appointment.findOne({user, exam});
             
-            if(isValidated !== true){
-                return res.status(400).json('Exam already booked')
+            if(!booked || booked == null) {
+                const bookedExam = await Appointment.create({exam, payment, user});
+                res.status(200).json({message: 'Appointment created successfully'});
+            } else {
+                res.status(400).json({message: 'Exam Already booked'})
             }
             const bookedExam = await Appointment.create({examId, payment, user});
 
