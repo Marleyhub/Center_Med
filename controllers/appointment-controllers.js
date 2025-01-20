@@ -10,10 +10,9 @@ const { object } = require('joi');
         try {
             const token = req.cookies['accessToken'];
             const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-            const user = payload.id;
-            const {examId} = req.body  // examId and date needs a front-end logic
-            const payment = 'Pix'
-        
+            const user = payload.name;
+            const {exam, payment} = req.body  
+
             if(!token) {
                 return res.status(402).json({message: 'Error with token verification'});
             }
