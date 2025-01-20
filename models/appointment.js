@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = mongoose.Schema({
-    examId: {
-        type: mongoose.Schema.Types.ObjectId,
+    exam: {
+        type: String,
         ref: 'Exam',
         required: true
     },
@@ -18,7 +18,7 @@ const appointmentSchema = mongoose.Schema({
     },
     
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'User',
         required: true
     }

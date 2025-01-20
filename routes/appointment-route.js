@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
-const booking = require('../controllers/appointment-controllers');
+const {booking, getAppointments} = require('../controllers/appointment-controllers');
 
+router.get('/getAppointments', getAppointments)
 
 router.post('/booking', booking);
 
