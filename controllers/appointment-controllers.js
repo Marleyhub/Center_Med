@@ -43,4 +43,8 @@ const { object } = require('joi');
         }
     }
     
-    module.exports = booking
+    module.exports = 
+    {
+    booking,
+    getAppointments
+    }
