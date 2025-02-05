@@ -3,8 +3,6 @@
     const app = express();
     const examsRoute = require('./routes/exam-route.js');
     const appointmentRoute = require('./routes/appointment-route.js')
-//const Exam = require('./models/exam.js');
-//const Appointment = require('./models/appointment.js');
     const cookieParser = require('cookie-parser');
     const port = 3080;
 
