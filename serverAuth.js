@@ -5,8 +5,10 @@
     const User = require('./models/user.js');
     const cookieParser = require('cookie-parser')
 
-
     const port = 4080;
+
+    require('dotenv').config()
+    const dbURL = process.env.DATABASE_URL
 
 // middleware 
     app.use(express.json());
@@ -23,10 +25,6 @@
 
 
 // Conecting to database
-    mongoose.connect(
-    "mongodb+srv://gabrielmtg2:t2TnTvqDih29eY0b@nodedb.2a6h5ag.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODEDB"
-    ).then(
-        console.log("mongo-client connection sucessful")
-    ).catch(()=>{
-        console.log('mongo-client connection Error')
-    })
+    mongoose.connect(dbURL)
+    .then(console.log("mongo-client connection sucessful"))
+    .catch(()=>{console.log('mongo-client connection Error')})
