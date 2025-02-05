@@ -66,7 +66,7 @@ const path = require('path')
     const createPdf = (userAppointment) => {
         const doc = new PDFDocument();
 
-        const filePath = path.join(__dirname,`appointment_${userAppointment._id}.pdf`)
+        const filePath = path.join(__dirname,`appointment_${userAppointment[0].user}.pdf`)
 
         doc.pipe(fs.createWriteStream(filePath));
 
