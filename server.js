@@ -3,13 +3,14 @@
     const app = express();
     const examsRoute = require('./routes/exam-route.js');
     const appointmentRoute = require('./routes/appointment-route.js')
-//  const User = require('./models/user.js');
-    const Exam = require('./models/exam.js');
-    const Appointment = require('./models/appointment.js');
+//const Exam = require('./models/exam.js');
+//const Appointment = require('./models/appointment.js');
     const cookieParser = require('cookie-parser');
     const port = 3080;
 
-    //console.log(process.cwd());
+    require('dotenv').config()
+    const dbURL = process.env.DATABASE_URL
+
     
     //middleware 
     app.use(express.json());
@@ -30,13 +31,9 @@
 
 
     //conectando no banco de dados
-    mongoose.connect(
-    "mongodb+srv://gabrielmtg2:t2TnTvqDih29eY0b@nodedb.2a6h5ag.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODEDB"
-    ).then(
-        console.log("mongo-client connection sucessful")
-    ).catch(()=>{
-        console.log('mongo-client connection Error')
-    })
+    mongoose.connect(dbURL)
+    .then(console.log("mongo-client connection sucessful"))
+    .catch(()=>{console.log('mongo-client connection Error')})
 
 
 
