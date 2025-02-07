@@ -6,7 +6,7 @@ const {logUser,
        logout,
        getUsers,
        getUser,
-       authenticateToken,
+
        createUser,
        schedule,
        uncheckExam,
@@ -16,8 +16,6 @@ const {logUser,
 router.post('/create', createUser)
 
 router.post('/login', logUser);
-
-router.post('/refresh', refresh);
 
 router.post('/logout', logout);
 
