@@ -1,56 +1,48 @@
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
-require ('dotenv').config();
+require('dotenv').config();
 
 
 // Creating tokens
 function generateTokens(payload) {
-    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
+    const accessToken = generateAccessToken(payload)
     const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'});
     tokenAutoRefresh(2 * 60, refreshToken)
     return ({accessToken, refreshToken})
  }
 
+function generateAccessToken(payload) {
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '120s'});
+}
+
 
 // timer to reset token 
- const tokenAutoRefresh = (expireTimeSeconds, refreshToken) => {
+ const tokenAutoRefresh = async (expireTimeSeconds, refreshToken) => {
     const refreshTime = (expireTimeSeconds - 1 * 60) * 1000
     setTimeout(async () => {
+
        try {
-          const newAccessToken = await callRefreshEndPoint(refreshToken);
-          if (newAccessToken) {
-             tokenAutoRefresh(2 * 60, refreshToken);
-             console.log('New access token received:', newAccessToken);
-          }
-          return 
+         if(!refreshToken || refreshToken == null) {
+            throw new Error ({message: Error.message});
+         }
+         // http request to endpoint
+         const response = await axios.post('http://localhost:4080/api/user/auth/refresh', {
+            token: refreshToken
+         });
+
+         if(response.status === 200) {
+            const newAccessToken = response.data.accessToken
+            tokenAutoRefresh(2 * 60, refreshToken);
+            console.log('New access token received:', newAccessToken);
+            return
+         } else {
+            throw new Error ('Faild to refresh Token')
+         }
        } catch (error) {
           return console.log('Erro no timer',error)
        }
     }, refreshTime)
 
- }
-
-// calling refresh endpoint
- const callRefreshEndPoint = async (refreshToken) => {
-    try {
-       if(!refreshToken || refreshToken == null) {
-          throw new Error ({message: Error.message});
-       }
-       // http request to endpoint
-       const response = await axios.post('http://localhost:4080/api/user/auth/refresh', {
-          token: refreshToken
-       });
-    
-       if(response.status === 200) {
-          const newAccessToken = response.data.accessToken
-          return newAccessToken;
-       } else {
-          throw new Error ('Faild to refresh Token')
-       }
-    } catch (error) {
-       console.error(`Error calling endpoint:`, error.message)
-    }
- 
  }
 
 // Refresh token endpoint 
@@ -63,7 +55,7 @@ function generateTokens(payload) {
        jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
           if(err) return console.log('Error to refresh token')
           const accessToken = generateAccessToken({name: user.name})
-          return res.status(200).json({accessToken: accessToken});
+          return res.status(200).json({accessToken: accessToken})
           }
        )
     console.log('refresh')
@@ -87,4 +79,5 @@ function generateTokens(payload) {
 
     module.exports = {
         generateTokens,
+        refresh
     }
